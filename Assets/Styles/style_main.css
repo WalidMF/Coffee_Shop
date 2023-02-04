@@ -1,0 +1,18 @@
+/* @import url(); */
+
+body{
+    background-color: rgb(14, 60, 80);
+    height: 700px;
+}
+.right_side_style{
+    width: 15%;
+}
+.main_section_style{
+    width: 85%;
+    margin: 10px;
+    border-radius: 15px;
+    background-color: rgb(227, 235, 238);
+}
+.user_info_style>img{
+    border: 3px solid white;
+}
