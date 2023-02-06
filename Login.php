@@ -15,7 +15,7 @@
         <!-- Page icon -->
         <link rel="shortcut icon" href="Assets/Images/icon.png" type="image/x-icon">
         <!-- Main Style CSS -->
-        <link rel="stylesheet" href="Assets/Styles/style_main.css">
+        <link rel="stylesheet" href="Assets/Styles/login.css">
 
     </head>
 
@@ -25,7 +25,36 @@
             <!-- Main Section -->
             <div class="main_section_style w-100">
                 
+            <div class="fullpage">
 
+                    <div class="box">
+
+                     <div class="logo">
+                         <img src="Assets/Images/coffie.jpg" alt="img not found">
+                             </div>
+
+    <div class="title">Coffee Shop</div>
+
+    <div class="form">
+
+        <form method="get" action="Index.html">
+            <label>ID</label>
+            <input type="text" placeholder="Enter your ID" required>
+            <label>Password</label>
+            <input type="password" placeholder="Enter your password" required>
+            <span style="color: red;"></span>
+            <button type="submit" >login</button>
+        </form>
+
+    </div>
+
+    <div class="forget">
+        <label><a href="#">Forgot password?</a></label>
+    </div>
+
+</div>
+
+</div>
 
 
 
