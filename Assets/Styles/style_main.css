@@ -16,3 +16,11 @@ body{
 .user_info_style>img{
     border: 3px solid white;
 }
+
+@font-face{
+    font-family: NotoSerif;
+    src: url('../Fonts/Cairo-Medium.ttf');
+}
+body{
+    font-family: NotoSerif;
+}

@@ -1,0 +1,27 @@
+
+@font-face{
+    font-family: NotoSerif;
+    src: url('../Fonts/Cairo-Medium.ttf');
+}
+body{
+    font-family: NotoSerif;
+}
+
+#search_input{
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#product_price{
+    font-size: 14px;
+    color: gray;
+}
+
+::-webkit-scrollbar{
+    width: 1px;
+}
+
+#products_menu{
+    max-height: 550px;
+    overflow: auto;
+}
