@@ -20,6 +20,50 @@
     </head>
 
     <body>
+
+    <?php
+    if (isset($_POST["login"])){
+        $email=$_POST["email"];
+        $password=$_POST["password"];
+        //establish connection with db
+        $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
+         $query = " SELECT * FROM users where email= '$email'; ";
+         $sql = $con->prepare($query);
+         $sql->execute();
+
+          $alldata[] = $sql->fetchAll(PDO::FETCH_ASSOC);
+          $user =$alldata[0];
+          if($user){
+            
+            if ( $password==$user[0]["password"])
+            {
+              if($user[0]["type"]=="admin")
+              {
+                header('Location:Admin_Home');
+                die();
+              }
+              else
+              {
+                header('Location:User_Home');
+                die();
+              }
+            }
+            
+            else
+            {
+                echo "<div class='alert alert-danger'>password isn't correct</div ";
+            }
+        
+        }
+
+        else
+        {
+            echo "<div class='alert alert-danger'>Email doesn't match any</div ";
+        }
+    }
+
+    ?>
+
         
         <div class="m-0 p-2 h-100 w-100 d-flex">
             <!-- Main Section -->
@@ -35,15 +79,16 @@
 
     <div class="title">Coffee Shop</div>
 
+
     <div class="form">
 
-        <form method="get" action="Index.html">
-            <label>ID</label>
-            <input type="text" placeholder="Enter your ID" required>
+        <form method="post" action="Login.php">
+            <label>Email</label>
+            <input type="text" placeholder="Enter your Email" name="email">
             <label>Password</label>
-            <input type="password" placeholder="Enter your password" required>
+            <input type="password" placeholder="Enter your password" name="password">
             <span style="color: red;"></span>
-            <button type="submit" >login</button>
+            <button type="submit" name="login">login</button>
         </form>
 
     </div>
@@ -52,18 +97,12 @@
         <label><a href="#">Forgot password?</a></label>
     </div>
 
+
+
 </div>
 
 </div>
 
-
-
-
-
-
-
-
-                
 
 
             </div>
@@ -76,3 +115,8 @@
     </body>
 
 </html>
+<?php
+
+
+
+?>

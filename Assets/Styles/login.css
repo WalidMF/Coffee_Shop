@@ -17,7 +17,7 @@
     width: 400px;
     height: 620px;
     box-sizing: border-box;
-    background-color: #100646;
+    background-color: #e5e9ee48;
     /* background-color:#ecf0f3 ; */
     padding: 20px 40px;
     border: 2px;
@@ -27,21 +27,21 @@
 
 img
 {
-    padding-top: 10px ;
+    /* padding-top: 10px ; */
     width: 100px;
     height: 100px;
     border-radius:5px ;
     margin: auto;
     border-radius: 50%;
     box-sizing: border-box;
-    box-shadow: 7px 7px 10px  #3c71a6;
+    box-shadow: 7px 7px 10px  #6161e6;
     margin-left: 90px;
 }
 .title
 {
     padding-top: 10px ;
     font-weight: 900;
-    font-size: 40px;
+    font-size: 50px;
     color: #1DA1f2;
     letter-spacing: 1px;
     text-align: center;
@@ -74,15 +74,15 @@ label
     margin-bottom: 4px;
     margin-top: 12px;
     font-size: 18px;
-    color:white;
+    color:#1DA1f2;
 }
 input
 {
     background: #ecf0f3;
     padding: 10px;
     padding-left: 20px;
-    height: 45px;
-    font-size: 14px;
+    height: 50px;
+    font-size: 20px;
     border-radius: 50px;
 }
 input:focus
@@ -107,10 +107,13 @@ button:hover
 label a
 {
     text-decoration: none;
-    color: rgba(36, 91, 230, 0.418);
+    /* color: rgba(36, 91, 230, 0.418); */
+    color: rgba(255, 255, 255, 0.418);
+    margin-top: 40px;
     display: flex;
     justify-content: center;
     padding-left: 2px;
+    font-size: 20px;
     
     
 }
