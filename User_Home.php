@@ -21,13 +21,39 @@
     </head>
 
     <body>
+
+        <?php 
+        
+        // get user info from database
+        $user_id = 0;
+        $conn = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
+        $query = "SELECT * FROM users";
+        $sql = $conn->prepare($query);
+        $sql->execute();
+        $all_users = $sql->fetchAll(PDO::FETCH_ASSOC);
+        $user_name = $all_users[$user_id]['name'];
+        $user_pic = $all_users[$user_id]['picture'];
+        // get categorys from database
+        $query = "SELECT * FROM category";
+        $sql = $conn->prepare($query);
+        $sql->execute();
+        $all_cate = $sql->fetchAll(PDO::FETCH_ASSOC);
+        // bill number
+        $bill_no = date("ymdhms");
+        // get products from database
+        $query = "SELECT * FROM products";
+        $sql = $conn->prepare($query);
+        $sql->execute();
+        $all_products = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+        ?>
         
         <div class="m-0 p-3 h-100 w-100 d-flex">
             <!-- Right Side Section -->
             <div class="right_side_style pe-3 pt-3 pt-lg-2">
                 <div class="user_info_style p-lg-4"> 
-                    <img src="Assets/Images/user.png" alt="User Picture" class="rounded-circle w-100" >
-                    <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center">User Name</h4>
+                    <img src="Assets/Images/Users/<?php echo $user_pic; ?>" alt="User Picture" class="rounded-circle w-100" >
+                    <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center"><?php echo $user_name; ?></h4>
                     <h5 class="m-0 text-secondary d-none d-lg-block text-center">user</h5>
                 </div>
                 <div class="btn-group-vertical w-100 pt-4 pt-lg-1 p-2">
@@ -38,20 +64,15 @@
             </div>
             <!-- Main Section -->
             <div class="main_section_style m-0 p-4">
-                
-
-
-
-
                 <div class="row h-100">
                     <div class="col-8">
                         <div class="row w-100 m-0">
                             <div class="col-4 ps-0">
                                 <select class="form-select fs-6 shadow p-2 ps-3 mb-4 bg-body" aria-label="Default select example">
                                     <option selected>Select Category</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <?php foreach($all_cate as $cate){ ?>
+                                        <option value="<?php echo $cate['id'] ?>"><?php echo $cate['name'] ?></option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="col-8 ps-0">
@@ -61,154 +82,46 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="row p-0" id="products_menu">
-
                             <div class="row w-100 m-0 mb-3">
-                                <div class="col-2 ps-0">
+                                <?php foreach($all_products as $product){ ?>
+                                <div class="col-2 ps-0 mt-3">
                                     <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/p1.png" class="card-img-top" alt="coffee">
+                                        <img src="Assets/Images/Products/<?php echo $product['picture'] ?>" class="card-img-top p-3" alt="<?php echo $product['name'] ?>">
                                         <div class="card-body p-1 text-start">
-                                            <h6 class="card-title">Turkish Coffee</h6>
-                                            <p id="product_price" class="card-text">$10.00</p>
+                                            <h6 class="card-title"><?php echo $product['name'] ?></h6>
+                                            <p id="product_price" class="card-text">$<?php echo $product['price'] ?></p>
                                         </div>
                                     </button>
                                 </div>
-                                <div class="col-2 ps-0">
-                                    <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/p1.png" class="card-img-top" alt="coffee">
-                                        <div class="card-body p-1 text-start">
-                                            <h6 class="card-title">Turkish Coffee</h6>
-                                            <p id="product_price" class="card-text">$10.00</p>
-                                        </div>
-                                    </button>
-                                </div>
-                                <div class="col-2 ps-0">
-                                    <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/p1.png" class="card-img-top" alt="coffee">
-                                        <div class="card-body p-1 text-start">
-                                            <h6 class="card-title">Turkish Coffee</h6>
-                                            <p id="product_price" class="card-text">$10.00</p>
-                                        </div>
-                                    </button>
-                                </div>
-                                <div class="col-2 ps-0">
-                                    <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/p1.png" class="card-img-top" alt="coffee">
-                                        <div class="card-body p-1 text-start">
-                                            <h6 class="card-title">Turkish Coffee</h6>
-                                            <p id="product_price" class="card-text">$10.00</p>
-                                        </div>
-                                    </button>
-                                </div>
-                                <div class="col-2 ps-0">
-                                    <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/p1.png" class="card-img-top" alt="coffee">
-                                        <div class="card-body p-1 text-start">
-                                            <h6 class="card-title">Turkish Coffee</h6>
-                                            <p id="product_price" class="card-text">$10.00</p>
-                                        </div>
-                                    </button>
-                                </div>
-                                <div class="col-2 ps-0">
-                                    <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/p1.png" class="card-img-top" alt="coffee">
-                                        <div class="card-body p-1 text-start">
-                                            <h6 class="card-title">Turkish Coffee</h6>
-                                            <p id="product_price" class="card-text">$10.00</p>
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="row w-100 m-0 mb-3">
-                                <div class="col-2 ps-0">
-                                    <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/p1.png" class="card-img-top" alt="coffee">
-                                        <div class="card-body p-1 text-start">
-                                            <h6 class="card-title">Turkish Coffee</h6>
-                                            <p id="product_price" class="card-text">$10.00</p>
-                                        </div>
-                                    </button>
-                                </div>
-                                <div class="col-2 ps-0">
-                                    <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/p1.png" class="card-img-top" alt="coffee">
-                                        <div class="card-body p-1 text-start">
-                                            <h6 class="card-title">Turkish Coffee</h6>
-                                            <p id="product_price" class="card-text">$10.00</p>
-                                        </div>
-                                    </button>
-                                </div>
-                                <div class="col-2 ps-0">
-                                    <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/p1.png" class="card-img-top" alt="coffee">
-                                        <div class="card-body p-1 text-start">
-                                            <h6 class="card-title">Turkish Coffee</h6>
-                                            <p id="product_price" class="card-text">$10.00</p>
-                                        </div>
-                                    </button>
-                                </div>
-                                <div class="col-2 ps-0">
-                                    <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/p1.png" class="card-img-top" alt="coffee">
-                                        <div class="card-body p-1 text-start">
-                                            <h6 class="card-title">Turkish Coffee</h6>
-                                            <p id="product_price" class="card-text">$10.00</p>
-                                        </div>
-                                    </button>
-                                </div>
-                                <div class="col-2 ps-0">
-                                    <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/p1.png" class="card-img-top" alt="coffee">
-                                        <div class="card-body p-1 text-start">
-                                            <h6 class="card-title">Turkish Coffee</h6>
-                                            <p id="product_price" class="card-text">$10.00</p>
-                                        </div>
-                                    </button>
-                                </div>
-                                <div class="col-2 ps-0">
-                                    <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/p1.png" class="card-img-top" alt="coffee">
-                                        <div class="card-body p-1 text-start">
-                                            <h6 class="card-title">Turkish Coffee</h6>
-                                            <p id="product_price" class="card-text">$10.00</p>
-                                        </div>
-                                    </button>
-                                </div>
-                            </div>
-                            
-
+                                <?php } ?>
+                            </div>      
                         </div>
-                        
-
                     </div>
                     <div class="col-4 ps-0">
                         <div class="w-100 h-100 shadow p-4 mb-5 bg-body rounded " >
-
                             <div class="row">
                                 <div class="col-6 p-1">
                                     <div class="input-group">
                                         <span class="input-group-text shadow-sm" id="inputGroup-sizing-default">Date</span>
-                                        <input type="text" readonly class="form-control shadow-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        <input type="text" readonly class="form-control shadow-sm" value="<?php echo date("d/m/Y"); ?>">
                                     </div>
                                 </div>
                                 <div class="col-6 p-1">
                                     <div class="input-group">
                                         <span class="input-group-text shadow-sm" id="inputGroup-sizing-default">Bill</span>
-                                        <input type="text" readonly class="form-control shadow-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        <input type="text" readonly class="form-control shadow-sm" value="<?php echo $bill_no; ?>">
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-12 p-1">
                                     <div class="input-group">
                                         <span class="input-group-text shadow-sm" id="inputGroup-sizing-default">User</span>
-                                        <input type="text" readonly class="form-control shadow-sm" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                                        <input type="text" readonly class="form-control shadow-sm" value="<?php echo $user_name; ?>">
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row h-50">
                                 <table class="table mt-3">
                                     <thead>
@@ -233,7 +146,6 @@
                                     </tbody>
                                 </table>
                             </div>
-
                             <div class="row">
                                 <div class="col-12 p-1">
                                     <div class="input-group">
@@ -242,7 +154,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="row">
                                 <div class="col-12 p-1">
                                     <div class="input-group">
@@ -256,7 +167,6 @@
                                     </div>
                                 </div>
                             </div>   
-                            
                             <div class="row p-2">
                                 <div class="col-8 px-3">
                                     <h5 class="m-0">Total</h5>
@@ -265,7 +175,6 @@
                                     <p class="text-end m-0">$10.00</p>
                                 </div>
                             </div> 
-
                             <div class="row">
                                 <div class="col-6 p-1">
                                     <button type="button" class="btn btn-primary w-100">Add New</button>
@@ -274,30 +183,18 @@
                                     <button type="button" class="btn btn-success w-100">Confirm</button>
                                 </div>
                             </div> 
-
                         </div>
                     </div>
                 </div>
-
-
-
-
-                
-
-
             </div>
         </div>
-        
-
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
+        <!-- JS Code -->
         <script>
-
             function addProductToBill(){
                 console.log('add')
             }
-
         </script>
 
     </body>
