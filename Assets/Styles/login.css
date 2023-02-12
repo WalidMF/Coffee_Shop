@@ -108,12 +108,15 @@ label a
 {
     text-decoration: none;
     /* color: rgba(36, 91, 230, 0.418); */
-    color: rgba(255, 255, 255, 0.418);
+    color: rgba(0, 0, 0, 0.418);
     margin-top: 40px;
     display: flex;
     justify-content: center;
     padding-left: 2px;
     font-size: 20px;
-    
-    
+}
+.forget
+{
+    color: rgb(198, 28, 28) !important;
+    background-color: red !important;
 }

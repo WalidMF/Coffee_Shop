@@ -94,7 +94,7 @@
     </div>
 
     <div class="forget">
-        <label><a href="#">Forgot password?</a></label>
+        <label><a href="./Forget_Password.php">Forgot password?</a></label>
     </div>
 
 
