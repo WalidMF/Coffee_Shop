@@ -23,73 +23,48 @@
 </head>
 
 <body>
-<?php
+    
+    <?php
 
-    if (isset($_POST["reset"])){
-       
-        $email=$_POST["email"];
-        //establish connection with db
-        $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
-         $query = " SELECT email FROM users where email= '$email'; ";
-        
-         $sql = $con->prepare($query);
-         $sql->execute();
-
-          $alldata[] = $sql->fetchAll(PDO::FETCH_ASSOC);
-          $user =$alldata[0];
-          if($user){
-            
-           setcookie("email",$email);
-                header('Location:Reset_password');
+        $emailerr = "";
+        if (isset($_POST["reset"])){
+            $email=$_POST["email"];
+            //establish connection with db
+            $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
+            $query = " SELECT email FROM users where email= '$email'; ";
+            $sql = $con->prepare($query);
+            $sql->execute();
+            $alldata[] = $sql->fetchAll(PDO::FETCH_ASSOC);
+            $user =$alldata[0];
+            if($user){
+                setcookie("email",$email);
+                header('Location:Reset_password.php');
                 die();
-          }
-
-          else
-              {
-                echo "<div class='alert alert-danger'>Email doesn't match any</div >";
-              }
-            
-            
-            
+            }
+            else{
+                $emailerr = "Email doesn't match any";
+            }
         }
-
-     
     ?>
 
     <div class="m-0 p-2 h-100 w-100 d-flex">
         <!-- Main Section -->
         <div class="main_section_style w-100">
-
-            <div class="card text-center" style="width: 500px; margin: auto auto; margin-top: 50px; border-radius: 10px;">
-                <div class="card-header h5 text-white bg-primary">
-                    <h2>Coffee Shop</h2>
-                </div>
-
-                <div class="card-body px-5">
+            <div class="card text-center shadow-lg p-1 mb-5 bg-body rounded" style="width: 350px; margin: auto auto; margin-top: 100px;">
+                <div class="card-body px-4">
                     <div class="card-text py-2">
-
-                        <div class="logo">
-                            <img src="Assets/Images/coffie.jpg" alt="img not found"
-                                style="width: 80%;height: 200px;border-radius: 50%;">
+                        <div class="logo m-3 mb-5">
+                            <img src="Assets/Images/wrong-password.png" alt="img not found" width="120" >
                         </div>
-                        
                         <form action="" method="post">
-
-                  
-                        <label class="form-label text-primary">Please enter your email</label>
-                        <input type="email" name="email" class="form-control my-3"  style="height: 50px;" placeholder="Please enter your email"/>
-                            
-                        <button type="submit" class="btn btn-primary w-100 " name="reset" style="height: 50px;">Reset password</button>
-                    </form>
+                            <label class="form-label fs-6">Please enter your email</label>
+                            <input type="email" name="email" class="form-control mt-3 mb-1"  style="height: 50px;" placeholder="Please enter your email"/>
+                            <div id="email-error" class="form-text text-danger ps-1"><?php echo $emailerr; ?></div>
+                            <button type="submit" class="btn btn-primary w-100 my-3" name="reset" style="height: 50px;">Reset password</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-
-        </div>
-
-
-
-
-
         </div>
     </div>
 

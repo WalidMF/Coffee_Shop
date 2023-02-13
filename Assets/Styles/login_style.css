@@ -1,0 +1,7 @@
+
+.box{
+    width: 350px;
+    Position: absolute;
+    box-sizing: border-box;
+    box-shadow: 3px 10px 15px rgb(20, 20, 20);
+}

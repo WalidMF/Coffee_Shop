@@ -15,110 +15,88 @@
         <!-- Page icon -->
         <link rel="shortcut icon" href="Assets/Images/icon.png" type="image/x-icon">
         <!-- Main Style CSS -->
-        <link rel="stylesheet" href="Assets/Styles/login.css">
+        <link rel="stylesheet" href="Assets/Styles/style_main.css">
+        <link rel="stylesheet" href="Assets/Styles/login_style.css">
 
     </head>
 
     <body>
 
-    <?php
-    if (isset($_POST["login"])){
-        $email=$_POST["email"];
-        $password=$_POST["password"];
-        //establish connection with db
-        $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
-         $query = " SELECT * FROM users where email= '$email'; ";
-         $sql = $con->prepare($query);
-         $sql->execute();
+        <?php
 
-          $alldata[] = $sql->fetchAll(PDO::FETCH_ASSOC);
-          $user =$alldata[0];
-          if($user){
-            
-            if ( $password==$user[0]["password"])
-            {
-              if($user[0]["type"]=="admin")
-              {
-                setcookie("user_id",$user[0]["id"]);
-                header('Location:Admin_Home');
-                die();
-              }
-              else
-              {
-                header('Location:User_Home');
-                die();
-              }
+        $emailerr = "";
+        $passerr = "";
+        if (isset($_POST["login"])){
+            $email=$_POST["email"];
+            $password=$_POST["password"];
+            //establish connection with db
+            $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
+            $query = " SELECT * FROM users where email= '$email'; ";
+            $sql = $con->prepare($query);
+            $sql->execute();
+            $alldata[] = $sql->fetchAll(PDO::FETCH_ASSOC);
+            $user =$alldata[0];
+            if($user){
+                if ( $password==$user[0]["password"]){
+                    if($user[0]["type"]=="admin"){
+                        setcookie("user_id",$user[0]["id"]);
+                        header('Location:Admin_Home.php');
+                        die();
+                    }
+                    else{
+                        setcookie("user_id",$user[0]["id"]);
+                        header('Location:User_Home.php');
+                        die();
+                    }
+                }
+                else{
+                    $passerr = "password isn't correct";
+                }
             }
-
-            
-            else
-            {
-                echo "<div class='alert alert-danger'>password isn't correct</div ";
+            else{
+                $emailerr = "Email doesn't match any";
             }
-        
         }
 
-        else
-        {
-            echo "<div class='alert alert-danger'>Email doesn't match any</div ";
-        }
-    }
-
-    ?>
+        ?>
 
         
         <div class="m-0 p-2 h-100 w-100 d-flex">
             <!-- Main Section -->
-            <div class="main_section_style w-100">
-                
-            <div class="fullpage">
+            <div class="main_section_style w-100 py-4">
+                <div class="mt-5 w-100 h-75 d-flex justify-content-center">
+                    <div class="box p-4 mb-5 bg-body shadow-lg shadow-lg rounded">
 
-                    <div class="box">
+                        <div class="d-flex justify-content-center mb-3">
+                            <img src="Assets/Images/login.png" alt="img not found" width="120" height="120">
+                        </div>
 
-                     <div class="logo">
-                         <img src="Assets/Images/coffie.jpg" alt="img not found">
-                             </div>
+                        <form method="post" action="Login.php">
+                            <div class="mb-4">
+                                <label for="email" class="form-label ">Email</label>
+                                <input type="email" class="form-control py-2" placeholder="Enter your Email" name="email">
+                                <div id="email-error" class="form-text text-danger ps-1"><?php echo $emailerr; ?></div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control py-2" placeholder="Enter your password" name="password">
+                                <div id="pass-error" class="form-text text-danger ps-1"><?php echo $passerr; ?></div>
+                            </div>
+                            <button type="submit" name="login" class="btn btn-primary mb-2 w-100 py-2">Login</button>
+                        </form>
 
-    <div class="title">Coffee Shop</div>
+                        <div class="d-flex justify-content-center mb-1">
+                            <label><a href="./Forget_Password.php">Forgot password?</a></label>
+                        </div>
 
-
-    <div class="form">
-
-        <form method="post" action="Login.php">
-            <label>Email</label>
-            <input type="text" placeholder="Enter your Email" name="email">
-            <label>Password</label>
-            <input type="password" placeholder="Enter your password" name="password">
-            <span style="color: red;"></span>
-            <button type="submit" name="login">login</button>
-        </form>
-
-    </div>
-
-    <div class="forget">
-        <label><a href="./Forget_Password.php">Forgot password?</a></label>
-    </div>
-
-
-
-</div>
-
-</div>
-
-
-
+                    </div>
+                </div>
             </div>
         </div>
         
-
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
     </body>
 
 </html>
-<?php
-
-
-
-?>

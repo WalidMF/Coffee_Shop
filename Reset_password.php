@@ -23,77 +23,53 @@
 </head>
 
 <body>
-<?php
+    
+    <?php
 
-    if (isset($_POST["confirm"])){
-       
-        $password=$_POST["password"];
-        $confirm=$_POST["confirmemail"];
-       
-        if ($password==$confirm)
-        {
-            if ( strlen($password) < 8) {
-                echo "<div class='alert alert-danger'>Password must be more than 8 letters </div >";
-            }
-            else
+        $passerr = "";
+        if (isset($_POST["confirm"])){
+            $password=$_POST["password"];
+            $confirm=$_POST["confirmemail"];
+            if ($password==$confirm)
             {
-            $email = $_COOKIE["email"];
-            $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
-            $query = " UPDATE users SET password ='$password' where email= '$email'; ";
-            $sql = $con->prepare($query);
-            $sql->execute();
-            echo "<div class='alert alert-danger'>Password has been changed</div >";
-            header("Location:Login");
-            die();
-
+                if ( strlen($password) < 8) {
+                    $passerr="Password must be more than 8 letters ";
+                }
+                else{
+                    $email = $_COOKIE["email"];
+                    $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
+                    $query = " UPDATE users SET password ='$password' where email= '$email'; ";
+                    $sql = $con->prepare($query);
+                    $sql->execute();
+                    header("Location:Login.php");
+                    die();
+                }
             }
-
-
+            else{
+                $passerr = "password doesn't match";
+            }                        
         }
-        else
-        {
-            echo "<div class='alert alert-danger'>Password doesn't match</div >";
-        }
-       
-            
-        }
-
-     
     ?>
 
     <div class="m-0 p-2 h-100 w-100 d-flex">
         <!-- Main Section -->
         <div class="main_section_style w-100">
-
-            <div class="card text-center" style="width: 500px; margin: auto auto; margin-top: 50px; border-radius: 10px;">
-                <div class="card-header h5 text-white bg-primary">
-                    <h2>Coffee Shop</h2>
-                </div>
-
-                <div class="card-body px-5">
+            <div class="card text-center shadow-lg p-1 mb-5 bg-body rounded" style="width: 350px; margin: auto auto; margin-top: 90px;">
+                <div class="card-body px-4">
                     <div class="card-text py-2">
-
-                        <div class="logo">
-                            <img src="Assets/Images/coffie.jpg" alt="img not found"
-                                style="width: 80%;height: 200px;border-radius: 50%;">
-                        </div>
-                        
+                        <div class="logo m-3 mb-5">
+                            <img src="Assets/Images/reset-password.png" alt="img not found" width="120" >
+                        </div>                   
                         <form action="" method="post">
-
-                  
-                        <input type="password" name="password" class="form-control my-3"  style="height: 50px;" placeholder="Enter new password"/>
-                        <input type="password" name="confirmemail" class="form-control my-3"  style="height: 50px;" placeholder="Confirm password"/>    
-                        <button type="submit" class="btn btn-primary w-100 " name="confirm" style="height: 50px;">Confirm</button>
-                    </form>
+                            <input type="password" name="password" class="form-control my-3"  style="height: 50px;" placeholder="Enter new password"/>
+                            <span class="form-text text-danger "><?php $passerr; ?></span>
+                            <input type="password" name="confirmemail" class="form-control mt-3 mb-1"  style="height: 50px;" placeholder="Confirm password"/> 
+                            <div id="pass-error" class="form-text text-danger ps-1"><?php echo $passerr; ?></div>
+                            <button type="submit" class="btn btn-primary w-100 my-3" name="confirm" style="height: 50px;">Confirm</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-
-        </div>
-
-
-
-
-
         </div>
     </div>
 
