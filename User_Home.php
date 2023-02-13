@@ -31,20 +31,17 @@
         $sql = $conn->prepare($query);
         $sql->execute();
         $all_users = $sql->fetchAll(PDO::FETCH_ASSOC);
-        $user_name = $all_users[$user_id]['name'];
-        $user_pic = $all_users[$user_id]['picture'];
+        $user = $all_users[$user_id];
+
         // get categorys from database
         $query = "SELECT * FROM category";
         $sql = $conn->prepare($query);
         $sql->execute();
         $all_cate = $sql->fetchAll(PDO::FETCH_ASSOC);
+
         // bill number
         $bill_no = date("ymdhms");
-        // get products from database
-        $query = "SELECT * FROM products";
-        $sql = $conn->prepare($query);
-        $sql->execute();
-        $all_products = $sql->fetchAll(PDO::FETCH_ASSOC);
+
         
         ?>
         
@@ -52,8 +49,8 @@
             <!-- Right Side Section -->
             <div class="right_side_style pe-3 pt-3 pt-lg-2">
                 <div class="user_info_style p-lg-4"> 
-                    <img src="Assets/Images/Users/<?php echo $user_pic; ?>" alt="User Picture" class="rounded-circle w-100" >
-                    <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center"><?php echo $user_name; ?></h4>
+                    <img src="Assets/Images/Users/<?php echo $user['picture']; ?>" alt="User Picture" class="rounded-circle w-100" >
+                    <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center"><?php echo $user['name']; ?></h4>
                     <h5 class="m-0 text-secondary d-none d-lg-block text-center">user</h5>
                 </div>
                 <div class="btn-group-vertical w-100 pt-4 pt-lg-1 p-2">
@@ -68,8 +65,8 @@
                     <div class="col-8">
                         <div class="row w-100 m-0">
                             <div class="col-4 ps-0">
-                                <select class="form-select fs-6 shadow p-2 ps-3 mb-4 bg-body" aria-label="Default select example">
-                                    <option selected>Select Category</option>
+                                <select class="form-select fs-6 shadow p-2 ps-3 mb-4 bg-body" id="select-category">
+                                    <option value="0" selected>All Products</option>
                                     <?php foreach($all_cate as $cate){ ?>
                                         <option value="<?php echo $cate['id'] ?>"><?php echo $cate['name'] ?></option>
                                     <?php } ?>
@@ -78,23 +75,13 @@
                             <div class="col-8 ps-0">
                                 <div class="input-group w-100">
                                     <input type="search" id="search_input" class="form-control fs-6 shadow p-2 ps-3 mb-4 bg-body" placeholder="Search" />
-                                    <button type="button" class="btn btn-primary fs-6 shadow p-2 mb-4"><i class="fas fa-search px-2"></i></button>
+                                    <button type="button" id="search_button" class="btn btn-primary fs-6 shadow p-2 mb-4"><i class="fas fa-search px-2"></i></button>
                                 </div>
                             </div>
                         </div>
                         <div class="row p-0" id="products_menu">
                             <div class="row w-100 m-0 mb-3">
-                                <?php foreach($all_products as $product){ ?>
-                                <div class="col-2 ps-0 mt-3">
-                                    <button class="card h-100" onclick="addProductToBill()">
-                                        <img src="Assets/Images/Products/<?php echo $product['picture'] ?>" class="card-img-top p-3" alt="<?php echo $product['name'] ?>">
-                                        <div class="card-body p-1 text-start">
-                                            <h6 class="card-title"><?php echo $product['name'] ?></h6>
-                                            <p id="product_price" class="card-text">$<?php echo $product['price'] ?></p>
-                                        </div>
-                                    </button>
-                                </div>
-                                <?php } ?>
+                                <!-- Display Products -->
                             </div>      
                         </div>
                     </div>
@@ -118,7 +105,7 @@
                                 <div class="col-12 p-1">
                                     <div class="input-group">
                                         <span class="input-group-text shadow-sm" id="inputGroup-sizing-default">User</span>
-                                        <input type="text" readonly class="form-control shadow-sm" value="<?php echo $user_name; ?>">
+                                        <input type="text" readonly class="form-control shadow-sm" value="<?php echo $user['name']; ?>">
                                     </div>
                                 </div>
                             </div>
@@ -159,7 +146,7 @@
                                     <div class="input-group">
                                         <span class="input-group-text shadow-sm" id="inputGroup-sizing-default">Room</span>
                                         <select class="form-select shadow-sm" aria-label="Default select example">
-                                            <option selected>Select Room</option>
+                                            <option value="0" selected>Select Room</option>
                                             <option value="1">R1</option>
                                             <option value="2">R2</option>
                                             <option value="2">R3</option>
@@ -186,15 +173,68 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>            
         </div>
         <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- JQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
         <!-- JS Code -->
         <script>
-            function addProductToBill(){
-                console.log('add')
+
+            // get products by category id
+            function getProductsByCatId(cat_id) {
+                $.ajax({
+                    url: "Assets/API/api_user_home.php",
+                    method: "POST",
+                    data: {
+                        cate_id: cat_id
+                    },
+                    success: function(data) {
+                        $("#products_menu>.row").html(data);
+                    }
+                })
             }
+
+            // search products
+            function searchProducts(str) {
+                $.ajax({
+                    url: "Assets/API/api_user_home.php",
+                    method: "POST",
+                    data: {
+                        input: str
+                    },
+                    success: function(data) {
+                        $("#products_menu>.row").html(data);
+                    }
+                })
+            }
+
+            // main js code
+            $(document).ready(function(){
+
+                getProductsByCatId('0');
+
+                $("#select-category").change(function(){
+                    var cat_id = $(this).val();
+                    getProductsByCatId(cat_id);
+                    $("#search_input").val("");
+                });
+
+                $("#search_button").click(function(){
+                    var input = $("#search_input").val();
+                    if($("#search_input").val() == ""){
+                        getProductsByCatId('0');
+                        $("#select-category").val("0");
+                    }
+                    else{
+                        searchProducts(input);
+                        $("#select-category").val("0");
+                    }
+                })
+
+            })
+
         </script>
 
     </body>
