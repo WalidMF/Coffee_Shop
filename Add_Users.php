@@ -52,14 +52,15 @@
         <div class="main_section_style m-0 p-3">
             <?php
 // define variables and set to empty values
-$nameErr = $emailErr = $genderErr = $passwordErr = "";
-$name = $email = $gender = $comment = $password = "";
+$nameErr = $emailErr = $fileErr = $room_err=$passwordErr = $confirm_password_err= "";
+$name = $email  = $confirm_password = $password =$room= "";
+if (isset($_POST["submit"])) {
+  $type = $_POST["type"];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (empty($_POST["name"])) {
     $nameErr = "Name is required";
   } else {
-    $name = test_input($_POST["name"]);
+    $name = $_POST["name"];
     // check if name only contains letters and whitespace
     if (!preg_match("/^[a-zA-Z-' ]*$/",$name)) {
       $nameErr = "Only letters and white space allowed";
@@ -69,10 +70,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (empty($_POST["email"])) {
     $emailErr = "Email is required";
   } else {
-    $email = test_input($_POST["email"]);
+    $email = $_POST["email"];
     // check if e-mail address is well-formed
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
       $emailErr = "Invalid email format";
+    }
+    else
+    {
+      $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
+      $query = " SELECT email FROM users where email= '$email'; ";
+      $sql = $con->prepare($query);
+      $sql->execute();
+      $check= $sql->fetchAll(PDO::FETCH_ASSOC);
+      if(!empty($check))
+      {
+        $emailErr="Email already exist";
+      }
     }
   }
   //////////////////////////////////////////////////////////////////
@@ -81,73 +94,140 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $passwordErr = "password is required";
     }
      else {
-    $password = test_input($_POST["password"]);
+    $password = $_POST["password"];
 
-    if (!preg_match("/^[a-z][1-9]{8-20}&/",$password)) {
+    if (!preg_match("/[a-z0-9]{8,}$/",$password)) {
       $passwordErr = "Invalid password";
     }
   }
 
   ///////////////////////////////////////////////////
-  if (empty($_POST["confirmpassword"] |$_POST["password"]!=$_POST["confirmpassword"] )) {
-    $passwordErr = "passwords doesn't match";
-    }
-     else {
-    $password = test_input($_POST["password"]);
+  
+    if (empty($_POST["confirmpassword"])) {
+      $confirm_password_err = "password is required";
+      }
+       else {
+      $confirm_password = $_POST["confirmpassword"];
+  
+      if ($_POST["password"]!=$_POST["confirmpassword"] ) {
+        $confirm_password_err = "passwords doesn't match";
+        }
+      }
     
-  }
+  
 ///////////////////////////////////////////////////////////
-}
+if (empty($_POST["roomnum"])) {
+  $room_err = "Room number is required";
+  }
+   else {
+  $room = $_POST["roomnum"];
 
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
+  if (!preg_match("/[a-zA-Z0-9]{1,6}$/",$room)) {
+    $room_err  = "Invalid room numer";
+  }
+  }
+
+////////////////////////////////////////////////////////////////
+$_FILES;
+$tmp_path=$_FILES['photo']['tmp_name'];       //pic path on pc
+$_file_name = $_FILES['photo']['name'];        //img name and extension
+$arr = explode('.', $_file_name);                         // separate words from extension                           
+$extension=end($arr);                                       // extension
+
+$extension_arr =array("jpg","jpeg","png","csv");    //   extension arr to check pic
+global $x;
+for($i=0;$i<count($extension_arr);$i++)
+{
+    if ($extension_arr[$i]==$extension)
+    {
+         $x=1;
+        break;
+
+    }
+}
+    
+    if($x !=1)
+{
+    $fileErr= "this is not an img";
+}
+$time=microtime().('.').$extension;
+$timeph="./Assets/Images/".$time;
+
+ /////////////////////////////////////////////////////////////////////////////////////
+
+ if ($nameErr=="" && $emailErr=="" && $fileErr=="" && $room_err=="" &&$passwordErr=="" &&$confirm_password_err== "")
+ {
+  move_uploaded_file($tmp_path,$timeph);
+  $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
+  $query = " INSERT INTO users (name,email,password,room,type,picture) VALUES('$name','$email','$password','$room','$type','$time')";
+  $sql = $con->prepare($query);
+  $sql->execute();
+  echo "<div class='alert alert-success'>User added Successfully</div> ";
+  echo "<br>";
+
+ }
+ else
+ {
+  echo "<div class='alert alert-danger'>Can't add user</div ";
+  echo "<br>";
+  die();
+ }
+
 }
 ?>
 
             <h2 style="text-align:center;">ADD USER</h2>
-  <div class="containeer w-50 mx-auto mt-5">
-            <form method="post">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Name</span>
-                    <input type="text" name="name" class="form-control">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Email</span>
-                    <input type="email" name="email" class="form-control">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Password</span>
-                    <input type="password" name="password" class="form-control">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Confirm Password</span>
-                    <input type="password" name="confirmpassword" class="form-control">
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Room Number</span>
-                    <input type="text" name="roomnum" class="form-control">
-                </div>
-                <div class="input-group mb-3">
-                   
-                    <input type="file" class="form-control">
-                </div>
-                
+            <div class="containeer w-50 mx-auto mt-5">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Name</span>
+                        <input type="text" name="name" class="form-control">
+                        <span class="error" style="color:red;"><?php echo $nameErr ?></span>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Email</span>
+                        <input type="email" name="email" class="form-control">
+                        <span class="error" style="color:red;"><?php echo $emailErr ?></span>
 
-                <input type="submit" class="btn btn-primary" name="submit" value="ADD">
-                <input type="reset" class="btn btn-success" name="submit" value="Reset">
-            </form>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Password</span>
+                        <input type="password" name="password" class="form-control">
+                        <span class="error" style="color:red;"><?php echo $passwordErr ?></span>
 
-</div>
-           
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Confirm Password</span>
+                        <input type="password" name="confirmpassword" class="form-control">
+                        <span class="error" style="color:red;"><?php echo $confirm_password_err ?></span>
+
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Room Number</span>
+                        <input type="text" name="roomnum" class="form-control">
+                        <span class="error" style="color:red;"><?php echo $room_err ?></span>
+
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">type</span>
+                        <select name="type" >
+                            <option  value="user">User</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+
+                        <input type="file" name="photo" class="form-control">
+                        <span class="error" style="color:red;"><?php echo $fileErr ?></span>
+
+                    </div>
 
 
+                    <input type="submit" class="btn btn-primary" name="submit" value="ADD">
+                    <input type="reset" class="btn btn-success" name="submit" value="Reset">
+                </form>
 
-
-
-
+            </div>
 
 
 

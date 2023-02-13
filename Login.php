@@ -39,6 +39,7 @@
             {
               if($user[0]["type"]=="admin")
               {
+                setcookie("user_id",$user[0]["id"]);
                 header('Location:Admin_Home');
                 die();
               }
@@ -48,6 +49,7 @@
                 die();
               }
             }
+
             
             else
             {
