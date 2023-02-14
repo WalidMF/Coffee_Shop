@@ -94,7 +94,7 @@
                 <th scope="row">'.$email.'</th>
                 <th scope="row">'.$room.'</th>
                 <th scope="row">'. '<img src ="Assets/Images/'.$img.'"  width="50" height="50" >' .'</th>
-                <th scope="row">'.'<a href="" class="btn btn-primary">Update</a>' .'</th>
+                <th scope="row">'.'<a href="Update_User.php?updateid='.$id.'" class="btn btn-primary">Update</a>' .'</th>
                 <th scope="row">'.'<a href="Delete_user.php?deleteid='.$id.'" class="btn btn-danger">Delete</a> '.'</th>
 
                 ';
