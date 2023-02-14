@@ -92,14 +92,10 @@
             $sql->execute();
             $check= $sql->fetchAll(PDO::FETCH_ASSOC);
             $newemail=$check[0]["email"];
-            var_dump($newemail);
             if(!empty($check))
             {
-              if ($newemail==$oldemail){
-                   echo "good";
-              }
-                   else
-                   {
+              if (!$newemail==$oldemail){
+                
                      $emailErr="Email already exist";
                    }     
             }
@@ -201,7 +197,7 @@ $timeph="./Assets/Images/".$time;
                 <form method="post" enctype="multipart/form-data">
                     <div class="input-group mb-3">
                         <span class="input-group-text">Name</span>
-                        <input type="text" name="name" value="<?php echo $all[0][" name"]; ?>" class="form-control">
+                        <input type="text" name="name" value="<?php echo $all[0]["name"]; ?>" class="form-control">
                         <span class="error" style="color:red;">
                             <?php echo $nameErr ?>
                         </span>
@@ -232,7 +228,7 @@ $timeph="./Assets/Images/".$time;
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">Room Number</span>
-                        <input type="text" name="roomnum" value="<?php echo $all[0][" room"]; ?>" class="form-control">
+                        <input type="text" name="roomnum" value="<?php echo $all[0]["room"]; ?>" class="form-control">
                         <span class="error" style="color:red;">
                             <?php echo $room_err ?>
                         </span>
