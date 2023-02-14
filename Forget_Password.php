@@ -42,7 +42,7 @@
                 die();
             }
             else{
-                $emailerr = "Email doesn't match any";
+                $emailerr = "Email doesn't Exist";
             }
         }
     ?>

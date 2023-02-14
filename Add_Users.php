@@ -164,13 +164,14 @@ $timeph="./Assets/Images/".$time;
   $sql->execute();
   echo "<div class='alert alert-success'>User added Successfully</div> ";
   echo "<br>";
+  header('Location:All_Users.php');
+  die();
 
  }
  else
  {
   echo "<div class='alert alert-danger'>Can't add user</div ";
   echo "<br>";
-  die();
  }
 
 }
