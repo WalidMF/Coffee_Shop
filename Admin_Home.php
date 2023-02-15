@@ -66,7 +66,7 @@
                 </div>
             </div>
             <!-- Main Section -->
-            <div class="main_section_style m-0 p-3">
+            <div class="main_section_style m-0 p-4">
                 <div class="row h-100">
                     <div class="col-8">
                         <div class="row w-100 m-0">
@@ -111,7 +111,13 @@
                                 <div class="col-12 p-1">
                                     <div class="input-group">
                                         <span class="input-group-text shadow-sm" id="inputGroup-sizing-default">User</span>
-                                        <input type="text" readonly class="form-control shadow-sm" value="<?php echo $user_name; ?>">
+                                        <select class="form-select shadow-sm" id="select-user">
+                                            <option value="0" selected>Select User</option>
+                                            <?php foreach($all_users as $user){ 
+                                                if($user['type'] == "user"){ ?>
+                                                    <option value="<?php echo $user['id'] ?>"><?php echo $user['name'] ?></option>
+                                            <?php } }?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +191,7 @@
             // get products by category id
             function getProductsByCatId(cat_id) {
                 $.ajax({
-                    url: "Assets/API/api_user_home.php",
+                    url: "Assets/API/api_admin_home.php",
                     method: "POST",
                     data: {
                         cate_id: cat_id
@@ -199,7 +205,7 @@
             // search products
             function searchProducts(str) {
                 $.ajax({
-                    url: "Assets/API/api_user_home.php",
+                    url: "Assets/API/api_admin_home.php",
                     method: "POST",
                     data: {
                         input: str
@@ -213,7 +219,7 @@
             //display bill rows
             function displayBillRows(bil) {
                 $.ajax({
-                    url: "Assets/API/api_user_home.php",
+                    url: "Assets/API/api_admin_home.php",
                     method: "POST",
                     data: {
                         bill: bil
@@ -227,7 +233,7 @@
             // add new bill button
             function addNewBill() {
                 $.ajax({
-                    url: "Assets/API/api_user_home.php",
+                    url: "Assets/API/api_admin_home.php",
                     method: "POST",
                     data: {
                         new_bill: true
@@ -245,7 +251,7 @@
             function saveBill(notes, room, total, order_id) {
                 
                 $.ajax({
-                    url: "Assets/API/api_user_home.php",
+                    url: "Assets/API/api_admin_home.php",
                     method: "POST",
                     data: {
                         save_bill: true,
@@ -304,7 +310,7 @@
             // change Product quantity in database
             function changeProductCount(user_id, product_id, order_id, p) {
                 $.ajax({
-                    url: "Assets/API/api_user_home.php",
+                    url: "Assets/API/api_admin_home.php",
                     method: "POST",
                     data: {
                         user_id: user_id,
@@ -324,7 +330,7 @@
                 var p = ths.nextElementSibling.value;
                 p++;
                 ths.nextElementSibling.value = p;
-                var user_id = <?php echo $user_id ?>;
+                var user_id = $("#select-user").val();
                 var order_id = $("#bill_no").val();
                 // var order_id = 1;
                 var product_id = $(ths).val();
@@ -337,7 +343,7 @@
                 if(p>0){
                     p--;
                     ths.previousElementSibling.value = p; 
-                    var user_id = <?php echo $user_id ?>;
+                    var user_id = $("#select-user").val();
                     var order_id = $("#bill_no").val();
                     // var order_id = 1;
                     var product_id = $(ths).val();
@@ -347,12 +353,12 @@
 
             // add product to bill button
             function addProductToBill(ths) {
-                var user_id = <?php echo $user_id ?>;
+                var user_id = $("#select-user").val();
                 var product_id = ths.value;
                 var order_id = $("#bill_no").val();
                 if(order_id != 0){
                     $.ajax({
-                        url: "Assets/API/api_user_home.php",
+                        url: "Assets/API/api_admin_home.php",
                         method: "POST",
                         data: {
                             p_product_id: product_id,
