@@ -110,7 +110,7 @@
      else {
     $password = $_POST["password"];
 
-    if (!preg_match("/[a-z0-9]{8,}$/",$password)) {
+    if (!preg_match("/[a-zA-Z0-9]{8,}$/",$password)) {
       $passwordErr = "Invalid password";
     }
   }
@@ -183,76 +183,62 @@ $timeph="./Assets/Images/".$time;
   die();
 
  }
- else
- {
-  echo "<div class='alert alert-danger'>Can't Update user</div ";
-  echo "<br>";
- }
-
+ 
 }
 ?>
 
-            <h2 style="text-align:center;">Update USER</h2>
-            <div class="containeer w-50 mx-auto mt-5">
+         
+
+     <h3 style="margin-top:25px">Update USER</h3>
+            <div class="containeer-fluid w-75 mx-5  mt-4  ">
                 <form method="post" enctype="multipart/form-data">
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Name</span>
-                        <input type="text" name="name" value="<?php echo $all[0]["name"]; ?>" class="form-control">
-                        <span class="error" style="color:red;">
-                            <?php echo $nameErr ?>
-                        </span>
+                    <div class=" mb-2">
+                        <label class="form-floating">Name</label>
+                        <input type="text" name="name" class="form-control" value="<?php echo $all[0]["name"]; ?>" >
+                        <span class="error" style="color:red;"><?php echo $nameErr ?></span>
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Email</span>
-                        <input type="email" name="email" value="<?php echo $oldemail ?>" class="form-control">
-                        <span class="error" style="color:red;">
-                            <?php echo $emailErr ?>
-                        </span>
+                    <div class=" mb-2">
+                        <span >Email</span>
+                        <input type="email" name="email" class="form-control"  value="<?php echo $oldemail ?>">
+                        <span class="error" style="color:red;"><?php echo $emailErr ?></span>
 
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Password</span>
-                        <input type="password" name="password" class="form-control">
-                        <span class="error" style="color:red;">
-                            <?php echo $passwordErr ?>
-                        </span>
+                    <div class=" mb-1">
+                        <span>Password</span>
+                        <input type="password" name="password" class="form-control" placeholder="Please Enter a password">
+                        <span class="error" style="color:red;"><?php echo $passwordErr ?></span>
 
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Confirm Password</span>
-                        <input type="password" name="confirmpassword" class="form-control">
-                        <span class="error" style="color:red;">
-                            <?php echo $confirm_password_err ?>
-                        </span>
+                    <div class=" mb-1">
+                        <span >Confirm Password</span>
+                        <input type="password" name="confirmpassword" class="form-control" placeholder="Confirm password">
+                        <span class="error" style="color:red;"><?php echo $confirm_password_err ?></span>
 
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">Room Number</span>
-                        <input type="text" name="roomnum" value="<?php echo $all[0]["room"]; ?>" class="form-control">
-                        <span class="error" style="color:red;">
-                            <?php echo $room_err ?>
-                        </span>
+                    <div class=" mb-1">
+                        <span >Room Number</span>
+                        <input type="text" name="roomnum" class="form-control" value=<?php echo $all[0]["room"]; ?>>
+                        <span class="error" style="color:red;"><?php echo $room_err ?></span>
 
                     </div>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">type</span>
-                        <select name="type">
-                            <option value="user">User</option>
+                    <div class=" mb-1">
+                        <span >Type</span>
+                        <select name="type" class="form-select " >
+                            <option  value="user">User</option>
                             <option value="admin">Admin</option>
                         </select>
                     </div>
-                    <div class="input-group mb-3">
+                    <div class=" mb-1">
 
-                        <input type="file" name="photo" class="form-control">
-                        <span class="error" style="color:red;">
-                            <?php echo $fileErr ?>
-                        </span>
+                        <input type="file" name="photo" class="form-control mt-2">
+                        <span class="error" style="color:red;"><?php echo $fileErr ?></span>
 
                     </div>
 
-
+                    <div class=" mt-4">
                     <input type="submit" class="btn btn-primary" name="submit" value="Update">
                     <input type="reset" class="btn btn-success" name="submit" value="Reset">
+                    </div>
                 </form>
 
             </div>
@@ -263,6 +249,7 @@ $timeph="./Assets/Images/".$time;
 
         </div>
     </div>
+
 
 
     <!-- Bootstrap JS -->
