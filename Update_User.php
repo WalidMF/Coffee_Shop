@@ -190,7 +190,7 @@ $timeph="./Assets/Images/".$time;
 
          
 
-     <h3 style="margin-top:25px">Update USER</h3>
+     <h3 style=" margin-top:25px" class="mx-5  mt-2">Update USER</h3>
             <div class="containeer-fluid w-75 mx-5  mt-4  ">
                 <form method="post" enctype="multipart/form-data">
                     <div class=" mb-2">
