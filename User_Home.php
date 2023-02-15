@@ -53,7 +53,7 @@
                 <div class="user_info_style p-lg-4"> 
                     <img src="Assets/Images/Users/<?php echo $user_pic; ?>" alt="User Picture" class="rounded-circle w-100" >
                     <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center"><?php echo $user_name; ?></h4>
-                    <h5 class="m-0 text-secondary d-none d-lg-block text-center">user</h5>
+                    <h5 class="m-0 text-secondary d-none d-lg-block text-center">USER</h5>
                 </div>
                 <div class="btn-group-vertical w-100 pt-4 pt-lg-1 p-2">
                     <a href="User_Home.php" class="btn btn-outline-light text-start p-2 my-1 active"><i class="fa-solid fa-house mx-2"></i><span class="d-none d-lg-inline">Home</span></a>
