@@ -39,9 +39,6 @@
         $sql->execute();
         $all_cate = $sql->fetchAll(PDO::FETCH_ASSOC);
 
-        // bill number
-        $bill_no = date("ymdhms");
-
         
         ?>
         
@@ -97,7 +94,7 @@
                                 <div class="col-6 p-1">
                                     <div class="input-group">
                                         <span class="input-group-text shadow-sm" id="inputGroup-sizing-default">Bill</span>
-                                        <input type="text" readonly  id="bill-no" class="form-control shadow-sm" value="<?php echo $bill_no; ?>">
+                                        <input type="text" readonly  id="bill_no" class="form-control shadow-sm" value="0">
                                     </div>
                                 </div>
                             </div>
@@ -129,7 +126,7 @@
                                 <div class="col-12 p-1">
                                     <div class="input-group">
                                         <span class="input-group-text shadow-sm">Notes</span>
-                                        <textarea class="form-control shadow-sm" aria-label="With textarea"></textarea>
+                                        <textarea class="form-control shadow-sm" id="notes_id" aria-label="With textarea"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -137,11 +134,11 @@
                                 <div class="col-12 p-1">
                                     <div class="input-group">
                                         <span class="input-group-text shadow-sm" id="inputGroup-sizing-default">Room</span>
-                                        <select class="form-select shadow-sm" aria-label="Default select example">
+                                        <select class="form-select shadow-sm" id="room_id" aria-label="Default select example">
                                             <option value="0" selected>Select Room</option>
-                                            <option value="1">R1</option>
-                                            <option value="2">R2</option>
-                                            <option value="2">R3</option>
+                                            <option value="R1">R1</option>
+                                            <option value="R2">R2</option>
+                                            <option value="R3">R3</option>
                                         </select>
                                     </div>
                                 </div>
@@ -151,15 +148,15 @@
                                     <h5 class="m-0">Total</h5>
                                 </div>
                                 <div class="col-4 px-3">
-                                    <p class="text-end m-0">$10.00</p>
+                                    <p class="text-end m-0">$<span id="total_id">0</span>.00</p>
                                 </div>
                             </div> 
                             <div class="row">
                                 <div class="col-6 p-1">
-                                    <button type="button" class="btn btn-primary w-100">Add New</button>
+                                    <button type="button" id="add_new_bill" class="btn btn-primary w-100">Add New</button>
                                 </div>
                                 <div class="col-6 p-1">
-                                    <button type="button" class="btn btn-success w-100">Confirm</button>
+                                    <button type="button" class="btn btn-success w-100" id="save_bill">Confirm</button>
                                 </div>
                             </div> 
                         </div>
@@ -216,12 +213,47 @@
                 });
             }
 
+            // add new bill button
+            function addNewBill() {
+                $.ajax({
+                    url: "Assets/API/api_user_home.php",
+                    method: "POST",
+                    data: {
+                        new_bill: true
+                    },
+                    success: function(data) {
+                        $("#bill_no").val(data);
+                    }
+                });
+                $("#notes_id").val("");
+                $("#room_id").val("0");
+            }
+
+            // save bill button
+            function saveBill(notes, room, total, order_id) {
+                
+                $.ajax({
+                    url: "Assets/API/api_user_home.php",
+                    method: "POST",
+                    data: {
+                        save_bill: true,
+                        notes: notes,
+                        room: room,
+                        total: total,
+                        order_id: order_id
+                    },
+                    success: function(data) {
+                        addNewBill();
+                    }
+                });
+            }
+
             // main js code
             $(document).ready(function(){
                 // get products by category id
                 getProductsByCatId('0');
                 //display bill rows
-                displayBillRows('5');
+                displayBillRows('1');
                 // get products by category id
                 $("#select-category").change(function(){
                     var cat_id = $(this).val();
@@ -239,14 +271,23 @@
                         searchProducts(input);
                         $("#select-category").val("0");
                     }
-                })
-                
-
+                });
+                // add new bill button
+                $("#add_new_bill").click(function(){
+                    addNewBill();
+                });
+                // save bill button
+                $("#save_bill").click(function(){
+                    var notes = $("#notes_id").val();
+                    var room = $("#room_id").val();
+                    var total = $("#total_id").text();
+                    var order_id = $("#bill_no").val();
+                    saveBill(notes, room, total, order_id);
+                });
             });
 
-
+            // change Product quantity in database
             function changeProductCount(user_id, product_id, order_id, p) {
-                
                 $.ajax({
                     url: "Assets/API/api_user_home.php",
                     method: "POST",
@@ -257,24 +298,24 @@
                         quantity: p
                     },
                     success: function(data) {
-                        displayBillRows(order_id)
+                        displayBillRows('1')
                     }
                 });
-                
             }
 
+            // add quantity to product
             function plusNum(ths) {
                 var p = ths.nextElementSibling.value;
                 p++;
                 ths.nextElementSibling.value = p;
                 var user_id = <?php echo $user['id'] ?>;
                 // var order_id = $("#bill-no").val();
-                var order_id = 5;
+                var order_id = 1;
                 var product_id = $(ths).val();
-                changeProductCount(user_id, product_id, order_id, p)
-                        
+                changeProductCount(user_id, product_id, order_id, p)      
             }
 
+            // minus quantity to product
             function minusNum(ths) {
                 var p = ths.previousElementSibling.value;
                 if(p>0){
@@ -282,12 +323,15 @@
                     ths.previousElementSibling.value = p; 
                     var user_id = <?php echo $user['id'] ?>;
                     // var order_id = $("#bill-no").val();
-                    var order_id = 5;
+                    var order_id = 1;
                     var product_id = $(ths).val();
                     changeProductCount(user_id, product_id, order_id, p)
                 }
-                
+            }
 
+            // add product to bill button
+            function addProductToBill(ths) {
+                console.log(ths.value);
             }
 
 
