@@ -145,10 +145,11 @@ if (empty($_POST["roomnum"])) {
 $_FILES;
 $tmp_path=$_FILES['photo']['tmp_name'];       //pic path on pc
 $_file_name = $_FILES['photo']['name'];        //img name and extension
+$photo_size =$_FILES['photo']['size'];
 $arr = explode('.', $_file_name);                         // separate words from extension                           
 $extension=end($arr);                                       // extension
 
-$extension_arr =array("jpg","jpeg","png","csv");    //   extension arr to check pic
+$extension_arr =array("jpg","jpeg","png","csv","gif");    //   extension arr to check pic
 global $x;
 for($i=0;$i<count($extension_arr);$i++)
 {
@@ -231,7 +232,7 @@ $timeph="./Assets/Images/".$time;
                     <div class=" mb-1">
 
                         <input type="file" name="photo" class="form-control mt-2">
-                        <span class="error" style="color:red;"><?php echo $fileErr ?></span>
+                        <span class="error" style="color:red;"><?php echo $fileErr; ?></span>
 
                     </div>
 
