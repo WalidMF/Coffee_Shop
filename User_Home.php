@@ -97,11 +97,11 @@
                                 <div class="col-6 p-1">
                                     <div class="input-group">
                                         <span class="input-group-text shadow-sm" id="inputGroup-sizing-default">Bill</span>
-                                        <input type="text" readonly class="form-control shadow-sm" value="<?php echo $bill_no; ?>">
+                                        <input type="text" readonly  id="bill-no" class="form-control shadow-sm" value="<?php echo $bill_no; ?>">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mb-2">
                                 <div class="col-12 p-1">
                                     <div class="input-group">
                                         <span class="input-group-text shadow-sm" id="inputGroup-sizing-default">User</span>
@@ -110,28 +110,20 @@
                                 </div>
                             </div>
                             <div class="row h-50">
-                                <table class="table mt-3">
-                                    <thead>
-                                    <tr>
-                                        <th class="col-6">Name</th>
-                                        <th class="col-3 text-center">Quant</th>
-                                        <th class="col-3 text-center">Price</th>
-                                    </tr>
+                                <div style=" max-height: 280px; overflow: auto;">
+                                <table id="bill_table" class="table" >
+                                    <thead class="sticky-top bg-body ">
+                                        <tr>
+                                            <th class="col-6">Name</th>
+                                            <th class="col-3 text-center">Quant</th>
+                                            <th class="col-3 text-center">Price</th>
+                                        </tr>
                                     </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td class="col-6">Turkish Coffee</td>
-                                        <td class="col-3 px-0">
-                                            <div class="input-group">
-                                                <button class=" p-0 px-2" type="button">+</button>
-                                                <input type="text" value="1" readonly class="form-control shadow-sm text-center p-0">
-                                                <button class=" p-0 px-2" type="button">-</button>                                        
-                                            </div>
-                                        </td>
-                                        <td class="col-3 text-center">$10.00</td>
-                                    </tr>
+                                    <tbody id="bill_table_rows">
+                                        <!-- display bill rows -->
                                     </tbody>
                                 </table>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-12 p-1">
@@ -193,7 +185,7 @@
                     success: function(data) {
                         $("#products_menu>.row").html(data);
                     }
-                })
+                });
             }
 
             // search products
@@ -207,20 +199,36 @@
                     success: function(data) {
                         $("#products_menu>.row").html(data);
                     }
-                })
+                });
+            }
+
+            //display bill rows
+            function displayBillRows(bil) {
+                $.ajax({
+                    url: "Assets/API/api_user_home.php",
+                    method: "POST",
+                    data: {
+                        bill: bil
+                    },
+                    success: function(data) {
+                        $("#bill_table_rows").html(data);
+                    }
+                });
             }
 
             // main js code
             $(document).ready(function(){
-
+                // get products by category id
                 getProductsByCatId('0');
-
+                //display bill rows
+                displayBillRows('5');
+                // get products by category id
                 $("#select-category").change(function(){
                     var cat_id = $(this).val();
                     getProductsByCatId(cat_id);
                     $("#search_input").val("");
                 });
-
+                // search products
                 $("#search_button").click(function(){
                     var input = $("#search_input").val();
                     if($("#search_input").val() == ""){
@@ -232,8 +240,56 @@
                         $("#select-category").val("0");
                     }
                 })
+                
 
-            })
+            });
+
+
+            function changeProductCount(user_id, product_id, order_id, p) {
+                
+                $.ajax({
+                    url: "Assets/API/api_user_home.php",
+                    method: "POST",
+                    data: {
+                        user_id: user_id,
+                        product_id: product_id,
+                        order_id: order_id,
+                        quantity: p
+                    },
+                    success: function(data) {
+                        displayBillRows(order_id)
+                    }
+                });
+                
+            }
+
+            function plusNum(ths) {
+                var p = ths.nextElementSibling.value;
+                p++;
+                ths.nextElementSibling.value = p;
+                var user_id = <?php echo $user['id'] ?>;
+                // var order_id = $("#bill-no").val();
+                var order_id = 5;
+                var product_id = $(ths).val();
+                changeProductCount(user_id, product_id, order_id, p)
+                        
+            }
+
+            function minusNum(ths) {
+                var p = ths.previousElementSibling.value;
+                if(p>0){
+                    p--;
+                    ths.previousElementSibling.value = p; 
+                    var user_id = <?php echo $user['id'] ?>;
+                    // var order_id = $("#bill-no").val();
+                    var order_id = 5;
+                    var product_id = $(ths).val();
+                    changeProductCount(user_id, product_id, order_id, p)
+                }
+                
+
+            }
+
 
         </script>
 
