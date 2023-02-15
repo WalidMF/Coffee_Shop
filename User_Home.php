@@ -25,13 +25,18 @@
         <?php 
         
         // get user info from database
-        $user_id = 0;
+        $user_id = 1;
         $conn = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
         $query = "SELECT * FROM users";
         $sql = $conn->prepare($query);
         $sql->execute();
         $all_users = $sql->fetchAll(PDO::FETCH_ASSOC);
-        $user = $all_users[$user_id];
+        foreach($all_users as $user){
+            if($user['id'] == $user_id){
+                $user_name = $user['name'];
+                $user_pic = $user['picture'];
+            }
+        }
 
         // get categorys from database
         $query = "SELECT * FROM category";
@@ -46,14 +51,14 @@
             <!-- Right Side Section -->
             <div class="right_side_style pe-3 pt-3 pt-lg-2">
                 <div class="user_info_style p-lg-4"> 
-                    <img src="Assets/Images/Users/<?php echo $user['picture']; ?>" alt="User Picture" class="rounded-circle w-100" >
-                    <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center"><?php echo $user['name']; ?></h4>
+                    <img src="Assets/Images/Users/<?php echo $user_pic; ?>" alt="User Picture" class="rounded-circle w-100" >
+                    <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center"><?php echo $user_name; ?></h4>
                     <h5 class="m-0 text-secondary d-none d-lg-block text-center">user</h5>
                 </div>
                 <div class="btn-group-vertical w-100 pt-4 pt-lg-1 p-2">
-                    <a href="User_Home.html" class="btn btn-outline-light text-start p-2 my-1 active"><i class="fa-solid fa-house mx-2"></i><span class="d-none d-lg-inline">Home</span></a>
-                    <a href="User_Orders.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-bag-shopping mx-2"></i><span class="d-none d-lg-inline">My Orders</span></a>
-                    <a href="Login.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-right-from-bracket mx-2"></i><span class="d-none d-lg-inline">Sign Out</span></a>
+                    <a href="User_Home.php" class="btn btn-outline-light text-start p-2 my-1 active"><i class="fa-solid fa-house mx-2"></i><span class="d-none d-lg-inline">Home</span></a>
+                    <a href="User_Orders.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-bag-shopping mx-2"></i><span class="d-none d-lg-inline">My Orders</span></a>
+                    <a href="Login.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-right-from-bracket mx-2"></i><span class="d-none d-lg-inline">Sign Out</span></a>
                 </div>
             </div>
             <!-- Main Section -->
@@ -102,7 +107,7 @@
                                 <div class="col-12 p-1">
                                     <div class="input-group">
                                         <span class="input-group-text shadow-sm" id="inputGroup-sizing-default">User</span>
-                                        <input type="text" readonly class="form-control shadow-sm" value="<?php echo $user['name']; ?>">
+                                        <input type="text" readonly class="form-control shadow-sm" value="<?php echo $user_name; ?>">
                                     </div>
                                 </div>
                             </div>
@@ -223,6 +228,7 @@
                     },
                     success: function(data) {
                         $("#bill_no").val(data);
+                        displayBillRows(data);
                     }
                 });
                 $("#notes_id").val("");
@@ -253,7 +259,8 @@
                 // get products by category id
                 getProductsByCatId('0');
                 //display bill rows
-                displayBillRows('1');
+                var bill_n = $("#bill_no").val();
+                displayBillRows(bill_n);
                 // get products by category id
                 $("#select-category").change(function(){
                     var cat_id = $(this).val();
@@ -282,7 +289,9 @@
                     var room = $("#room_id").val();
                     var total = $("#total_id").text();
                     var order_id = $("#bill_no").val();
-                    saveBill(notes, room, total, order_id);
+                    if(order_id != 0 && total != 0){
+                        saveBill(notes, room, total, order_id);
+                    }
                 });
             });
 
@@ -298,7 +307,8 @@
                         quantity: p
                     },
                     success: function(data) {
-                        displayBillRows('1')
+                        var bill_n = $("#bill_no").val();
+                        displayBillRows(bill_n);
                     }
                 });
             }
@@ -308,9 +318,9 @@
                 var p = ths.nextElementSibling.value;
                 p++;
                 ths.nextElementSibling.value = p;
-                var user_id = <?php echo $user['id'] ?>;
-                // var order_id = $("#bill-no").val();
-                var order_id = 1;
+                var user_id = <?php echo $user_id ?>;
+                var order_id = $("#bill_no").val();
+                // var order_id = 1;
                 var product_id = $(ths).val();
                 changeProductCount(user_id, product_id, order_id, p)      
             }
@@ -321,9 +331,9 @@
                 if(p>0){
                     p--;
                     ths.previousElementSibling.value = p; 
-                    var user_id = <?php echo $user['id'] ?>;
-                    // var order_id = $("#bill-no").val();
-                    var order_id = 1;
+                    var user_id = <?php echo $user_id ?>;
+                    var order_id = $("#bill_no").val();
+                    // var order_id = 1;
                     var product_id = $(ths).val();
                     changeProductCount(user_id, product_id, order_id, p)
                 }
@@ -331,7 +341,24 @@
 
             // add product to bill button
             function addProductToBill(ths) {
-                console.log(ths.value);
+                var user_id = <?php echo $user_id ?>;
+                var product_id = ths.value;
+                var order_id = $("#bill_no").val();
+                if(order_id != 0){
+                    $.ajax({
+                        url: "Assets/API/api_user_home.php",
+                        method: "POST",
+                        data: {
+                            p_product_id: product_id,
+                            p_user_id: user_id,
+                            p_order_id: order_id
+                        },
+                        success: function(data) {
+                            var bill_n = $("#bill_no").val();
+                            displayBillRows(bill_n);
+                        }
+                    });
+                }
             }
 
 

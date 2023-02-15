@@ -17,7 +17,7 @@ if(isset($_POST['cate_id'])){
     $sql->execute();
     $all_products = $sql->fetchAll(PDO::FETCH_ASSOC);
     foreach($all_products as $product){ ?>
-        <div class="col-2 ps-0 my-1">
+        <div class="col-2 ps-0 my-1 mb-2">
             <button class="card h-100" onclick="addProductToBill(this)" value="<?php echo $product['id'] ?>">
                 <img src="Assets/Images/Products/<?php echo $product['picture'] ?>" class="card-img-top p-3" alt="<?php echo $product['name'] ?>">
                 <div class="card-body p-1 text-start">
@@ -38,7 +38,7 @@ if(isset($_POST['input'])){
     $sql->execute();
     $all_products = $sql->fetchAll(PDO::FETCH_ASSOC);
     foreach($all_products as $product){ ?>
-        <div class="col-2 ps-0 my-1">
+        <div class="col-2 ps-0 my-1 mb-2">
             <button class="card h-100" onclick="addProductToBill(this)" value="<?php echo $product['id'] ?>">
                 <img src="Assets/Images/Products/<?php echo $product['picture'] ?>" class="card-img-top p-3" alt="<?php echo $product['name'] ?>">
                 <div class="card-body p-1 text-start">
@@ -140,6 +140,15 @@ if(isset($_POST['save_bill'])){
     $sql->execute();
 }
 
+// add product to bill in database
+if(isset($_POST['p_product_id'])){
+    $user_id = $_POST['p_user_id'];
+    $product_id = $_POST['p_product_id'];
+    $order_id = $_POST['p_order_id'];
+    $query = "INSERT INTO `user_order_product` (`user_id`, `product_id`, `order_id`, `product_count`) VALUES ('$user_id', '$product_id', '$order_id', '1');";
+    $sql = $conn->prepare($query);
+    $sql->execute();
+}
 
 
 
