@@ -33,23 +33,16 @@
                 <h5 class="m-0 text-secondary d-none d-lg-block text-center">Admin</h5>
             </div>
             <div class="btn-group-vertical w-100 pt-4 pt-lg-1 p-2">
-                <a href="Admin_Home.html" class="btn btn-outline-light text-start p-2 my-1"><i
-                        class="fa-solid fa-house mx-2"></i><span class="d-none d-lg-inline">Home</span></a>
-                <a href="Add_Product.html" class="btn btn-outline-light text-start p-2 my-1"><i
-                        class="fa-solid fa-mug-saucer mx-1"></i><span class="d-none d-lg-inline">Products</span></a>
-                <a href="All_Users.html" class="btn btn-outline-light text-start p-2 my-1 active"><i
-                        class="fa-solid fa-user mx-2"></i><span class="d-none d-lg-inline">Users</span></a>
-                <a href="Admin_Orders.html" class="btn btn-outline-light text-start p-2 my-1"><i
-                        class="fa-solid fa-bag-shopping mx-2"></i><span class="d-none d-lg-inline">Orders</span></a>
-                <a href="Cheeks.html" class="btn btn-outline-light text-start p-2 my-1"><i
-                        class="fa-solid fa-circle-check mx-2"></i><span class="d-none d-lg-inline">Cheeks</span></a>
-                <a href="Login.html" class="btn btn-outline-light text-start p-2 my-1"><i
-                        class="fa-solid fa-right-from-bracket mx-2"></i><span class="d-none d-lg-inline">Sign
-                        Out</span></a>
+                <a href="Admin_Home.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-house mx-2"></i><span class="d-none d-lg-inline">Home</span></a>
+                <a href="Add_Product.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-mug-saucer mx-1"></i><span class="d-none d-lg-inline">Products</span></a>
+                <a href="All_Users.php" class="btn btn-outline-light text-start p-2 my-1 active"><i class="fa-solid fa-user mx-2"></i><span class="d-none d-lg-inline">Users</span></a>
+                <a href="Admin_Orders.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-bag-shopping mx-2"></i><span class="d-none d-lg-inline">Orders</span></a>
+                <a href="Cheeks.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-circle-check mx-2"></i><span class="d-none d-lg-inline">Cheeks</span></a>
+                <a href="Login.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-right-from-bracket mx-2"></i><span class="d-none d-lg-inline">Sign Out</span></a>
             </div>
         </div>
         <!-- Main Section -->
-        <div class="main_section_style m-0 p-3">
+        <div class="main_section_style m-0 p-4">
 
             <?php
                   $id =$_GET["updateid"];
@@ -190,36 +183,45 @@ $timeph="./Assets/Images/".$time;
 
          
 
-     <h3 style=" margin-top:25px" class="mx-5  mt-2">Update USER</h3>
-            <div class="containeer-fluid w-75 mx-5  mt-4  ">
+     <h3 style=" margin-top:25px" class="mx-5  mt-3">Update User...</h3>
+            <div class="containeer w-100 px-5  mt-3  ">
                 <form method="post" enctype="multipart/form-data">
                     <div class=" mb-2">
+                    <div class="d-flex justify-content-between">
                         <label class="form-floating">Name</label>
-                        <input type="text" name="name" class="form-control" value="<?php echo $all[0]["name"]; ?>" >
                         <span class="error" style="color:red;"><?php echo $nameErr ?></span>
                     </div>
+                    <input type="text" name="name" class="form-control" value="<?php echo $all[0]["name"]; ?>" >
                     <div class=" mb-2">
+                    <div class="d-flex justify-content-between">
                         <span >Email</span>
-                        <input type="email" name="email" class="form-control"  value="<?php echo $oldemail ?>">
                         <span class="error" style="color:red;"><?php echo $emailErr ?></span>
+                        </div>
+                        <input type="email" name="email" class="form-control"  value="<?php echo $oldemail ?>">
 
                     </div>
                     <div class=" mb-1">
+                    <div class="d-flex justify-content-between">
                         <span>Password</span>
-                        <input type="password" name="password" class="form-control" placeholder="Please Enter a password">
                         <span class="error" style="color:red;"><?php echo $passwordErr ?></span>
+                        </div>
+                        <input type="password" name="password" class="form-control" placeholder="Please Enter a password">
 
                     </div>
                     <div class=" mb-1">
+                    <div class="d-flex justify-content-between">
                         <span >Confirm Password</span>
-                        <input type="password" name="confirmpassword" class="form-control" placeholder="Confirm password">
                         <span class="error" style="color:red;"><?php echo $confirm_password_err ?></span>
+                        </div>
+                        <input type="password" name="confirmpassword" class="form-control" placeholder="Confirm password">
 
                     </div>
                     <div class=" mb-1">
+                    <div class="d-flex justify-content-between">
                         <span >Room Number</span>
-                        <input type="text" name="roomnum" class="form-control" value=<?php echo $all[0]["room"]; ?>>
                         <span class="error" style="color:red;"><?php echo $room_err ?></span>
+                        </div>
+                        <input type="text" name="roomnum" class="form-control" value=<?php echo $all[0]["room"]; ?>>
 
                     </div>
                     <div class=" mb-1">
@@ -230,15 +232,17 @@ $timeph="./Assets/Images/".$time;
                         </select>
                     </div>
                     <div class=" mb-1">
-
+                      <div class="d-flex justify-content-between">
+                      <span >Picture</span>
+                      <span class="error" style="color:red;"><?php echo $fileErr; ?></span>
+                      </div>
                         <input type="file" name="photo" class="form-control mt-2">
-                        <span class="error" style="color:red;"><?php echo $fileErr; ?></span>
 
                     </div>
 
                     <div class=" mt-4">
-                    <input type="submit" class="btn btn-primary" name="submit" value="Update">
-                    <input type="reset" class="btn btn-success" name="submit" value="Reset">
+                    <input type="submit" class="btn btn-primary px-4 me-3" name="submit" value="Update">
+                    <input type="reset" class="btn btn-secondary px-4" name="submit" value="Reset">
                     </div>
                 </form>
 

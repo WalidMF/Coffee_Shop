@@ -40,12 +40,12 @@
                 if ( $password==$user[0]["password"]){
                     if($user[0]["type"]=="admin"){
                         setcookie("user_id",$user[0]["id"]);
-                        header('Location:Admin_Home');
+                        header('Location:Admin_Home.php');
                         die();
                     }
                     else{
                         setcookie("user_id",$user[0]["id"]);
-                        header('Location:User_Home');
+                        header('Location:User_Home.php');
                         die();
                     }
                 }
