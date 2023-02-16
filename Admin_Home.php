@@ -25,7 +25,7 @@
         <?php 
         
         // get user info from database
-        $user_id = 1;
+        $user_id = $_COOKIE["user_id"];
         $conn = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
         $query = "SELECT * FROM users";
         $sql = $conn->prepare($query);
@@ -51,8 +51,10 @@
         <div class="m-0 p-3 h-100 w-100 d-flex">
             <!-- Right Side Section -->
             <div class="right_side_style pe-3 pt-3 pt-lg-2">
-                <div class="user_info_style p-lg-4"> 
-                    <img src="Assets/Images/Users/<?php echo $user_pic; ?>" alt="User Picture" class="rounded-circle w-100" >
+                <div class="user_info_style p-lg-2"> 
+                    <div class="p-3 pt-4 img-style">
+                        <img src="Assets/Images/Users/<?php echo $user_pic; ?>" alt="User Picture" class="rounded-circle w-100" style="border: 3px solid white;">
+                    </div>                    
                     <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center"><?php echo $user_name; ?></h4>
                     <h5 class="m-0 text-secondary d-none d-lg-block text-center">ADMIN</h5>
                 </div>
