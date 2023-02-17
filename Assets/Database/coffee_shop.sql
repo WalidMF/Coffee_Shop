@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2023 at 09:01 PM
+-- Generation Time: Feb 17, 2023 at 08:24 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -58,35 +58,16 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `date`) VALUES
-(1, '2023-02-02'),
-(31, '2023-02-15'),
-(32, '2023-02-15'),
-(33, '2023-02-15'),
-(34, '2023-02-15'),
-(35, '2023-02-15'),
-(36, '2023-02-15'),
-(37, '2023-02-15'),
-(38, '2023-02-15'),
-(39, '2023-02-15'),
-(40, '2023-02-15'),
-(41, '2023-02-15'),
-(42, '2023-02-15'),
-(43, '2023-02-15'),
-(44, '2023-02-15'),
-(45, '2023-02-15'),
-(46, '2023-02-15'),
-(47, '2023-02-15'),
-(48, '2023-02-15'),
-(49, '2023-02-15'),
-(50, '2023-02-15'),
-(51, '2023-02-15'),
-(52, '2023-02-15'),
-(53, '2023-02-15'),
-(54, '2023-02-15'),
-(55, '2023-02-15'),
-(56, '2023-02-15'),
-(57, '2023-02-15'),
-(58, '2023-02-15');
+(93, '2023-02-16'),
+(94, '2023-02-16'),
+(95, '2023-02-16'),
+(96, '2023-02-16'),
+(97, '2023-02-16'),
+(98, '2023-02-16'),
+(99, '2023-02-16'),
+(100, '2023-02-17'),
+(101, '2023-02-17'),
+(102, '2023-02-17');
 
 -- --------------------------------------------------------
 
@@ -108,19 +89,13 @@ CREATE TABLE `orders_info` (
 --
 
 INSERT INTO `orders_info` (`id`, `status`, `notes`, `room`, `total`, `order_id`) VALUES
-(1, 'done', 'notes', 'R2', 90, 1),
-(2, 'done', 'notes', 'R2', 90, 33),
-(3, 'Processing', 'walid', 'R3', 90, 34),
-(4, 'Processing', 'walid', 'R3', 90, 35),
-(6, 'Processing', 'ajbsjs', 'R1', 100, 36),
-(7, 'Processing', 'mgmhg', 'R1', 80, 39),
-(8, 'Processing', 'walid', 'R2', 70, 45),
-(9, 'Processing', 'walid', 'R3', 110, 47),
-(10, 'Processing', 'ay 7aha', 'R2', 70, 49),
-(11, 'Processing', 'gggg', 'R1', 40, 51),
-(12, 'Processing', 'walod', 'R2', 35, 53),
-(13, 'Processing', 'qqqq', 'R2', 70, 55),
-(14, 'Processing', '', '0', 35, 56);
+(29, 'Processing', 'no ic', 'R1', 45, 93),
+(30, 'Processing', 'ay 7aga', 'R3', 55, 94),
+(31, 'Processing', 'ok', 'R2', 45, 95),
+(32, 'Processing', '', '0', 35, 97),
+(33, 'Processing', '', '0', 70, 98),
+(34, 'Processing', '', 'R2', 90, 100),
+(35, 'Processing', '', 'R1', 75, 101);
 
 -- --------------------------------------------------------
 
@@ -143,25 +118,26 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `name`, `price`, `picture`, `status`, `category_id`) VALUES
 (1, 'Tea', 5, 'tea.png', 'available', 1),
-(2, 'Green Tea', 10, 'green-tea.png', 'available', 1),
-(3, 'Turkish Coffee', 10, 'turkish-coffee.png', '', 1),
-(4, 'French Coffee', 15, 'french-coffee.png', '', 1),
-(5, 'Latte', 10, 'latte.png', '', 1),
-(6, 'Hot Chocolate', 25, 'hot-chocolate.png', '', 1),
-(7, 'Cocoa', 10, 'cocoa.png', '', 1),
-(8, 'Manga', 15, 'manga-juice.png', '', 2),
-(9, 'Lemon', 10, 'lemon-juice.png', '', 2),
-(10, 'Watermelon', 10, 'watermelon-juice.png', '', 2),
-(11, 'Cranberry', 15, 'cranberry-juice.png', '', 2),
-(12, 'Orange', 10, 'orange-juice.png', '', 2),
-(13, 'Strawberry', 12, 'strawberry-juice.png', '', 2),
-(14, 'Cola', 10, 'cola.png', '', 3),
-(15, 'Pepsi', 10, 'pepsi.png', '', 3),
-(16, 'Mirinda apple', 10, 'miranda-apple.png', '', 3),
-(17, 'Miranda Orange', 10, 'miranda-orange.png', '', 3),
-(18, 'Fayrouz', 15, 'fayrouz.png', '', 3),
-(19, 'Fruit Cocktail', 25, 'fruit-cocktail.png', '', 4),
-(20, 'Juice Cocktail', 20, 'vegetables-cocktail.png', '', 4);
+(2, 'Green Tea', 10, 'green-tea.png', 'unavailable', 1),
+(3, 'Turkish Coffee', 10, 'turkish-coffee.png', 'available', 1),
+(4, 'French Coffee', 15, 'french-coffee.png', 'available', 1),
+(5, 'Latte', 10, 'latte.png', 'unavailable', 1),
+(6, 'Hot Chocolate', 25, 'hot-chocolate.png', 'available', 1),
+(7, 'Cocoa', 10, 'cocoa.png', 'available', 1),
+(8, 'Manga', 15, 'manga-juice.png', 'available', 2),
+(9, 'Lemon', 10, 'lemon-juice.png', 'available', 2),
+(10, 'Watermelon', 10, 'watermelon-juice.png', 'available', 2),
+(11, 'Cranberry', 15, 'cranberry-juice.png', 'available', 2),
+(12, 'Orange', 10, 'orange-juice.png', 'available', 2),
+(13, 'Strawberry', 12, 'strawberry-juice.png', 'available', 2),
+(14, 'Cola', 10, 'cola.png', 'available', 3),
+(15, 'Pepsi', 10, 'pepsi.png', 'available', 3),
+(16, 'Mirinda apple', 10, 'miranda-apple.png', 'available', 3),
+(17, 'Miranda Orange', 10, 'miranda-orange.png', 'available', 3),
+(18, 'Fayrouz', 15, 'fayrouz.png', 'available', 3),
+(19, 'Fruit Cocktail', 25, 'fruit-cocktail.png', 'available', 4),
+(20, 'Juice Cocktail', 20, 'vegetables-cocktail.png', 'available', 4),
+(21, 'Apple', 10, 'fayrouz.png', 'Available', 2);
 
 -- --------------------------------------------------------
 
@@ -184,12 +160,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `room`, `type`, `picture`) VALUES
-(1, 'Walid Mostafa', 'walid@gmail.com', 'walid2000', 'R2000', 'admin', 'walid.png'),
-(2, 'Eslam Abdelsattar', 'eslam@gmail.com', 'e123', 'R2001', 'admin', NULL),
-(3, 'Aml Ibrahim', 'aml@gmail.com', 'a123', 'R2000', 'user', NULL),
-(4, 'Naglaa Hamdi', 'naglaa@gmail.com', 'n123', 'R2001', 'user', NULL),
-(5, 'Khaled Alaa', 'khaled@gmail.com', 'k123', 'R2000', 'user', NULL),
-(6, 'Shimaa Moubark', 'shimaa@gmail.com', 's123', 'R2002', 'user', NULL);
+(1, 'Walid Mostafa', 'walid@gmail.com', 'walid2023', 'R2000', 'admin', 'walid.png'),
+(2, 'Eslam Abdelsattar', 'eslam@gmail.com', 'eslam2023', 'R2001', 'admin', 'eslam.png'),
+(3, 'Aml Ibrahim', 'aml@gmail.com', 'amll2023', 'R2000', 'user', 'aml.png'),
+(4, 'Naglaa Hamdi', 'naglaa@gmail.com', 'naglaa2023', 'R2001', 'user', 'naglaa.png'),
+(5, 'Khaled Alaa', 'khaled@gmail.com', 'khaled2023', 'R2000', 'user', 'khaled.png'),
+(6, 'Shimaa Moubark', 'shimaa@gmail.com', 'shimaa2023', 'R2002', 'user', 'shimaa.png'),
+(11, 'Ali', 'ali@gmail.com', 'alii2023', 'R1', 'user', '0.60703500 1676658901.png');
 
 -- --------------------------------------------------------
 
@@ -209,47 +186,26 @@ CREATE TABLE `user_order_product` (
 --
 
 INSERT INTO `user_order_product` (`user_id`, `product_id`, `order_id`, `product_count`) VALUES
-(1, 14, 1, 4),
-(1, 16, 1, 5),
-(1, 12, 1, 1),
-(1, 15, 1, 1),
-(1, 18, 1, 1),
-(1, 4, 1, 1),
-(1, 11, 1, 1),
-(1, 3, 1, 1),
-(1, 4, 1, 1),
-(1, 5, 1, 1),
-(1, 1, 1, 1),
-(1, 10, 1, 1),
-(1, 12, 1, 1),
-(1, 1, 1, 1),
-(1, 2, 44, 1),
-(1, 1, 44, 1),
-(1, 4, 44, 2),
-(1, 4, 44, 2),
-(1, 4, 44, 2),
-(1, 4, 44, 1),
-(1, 8, 45, 1),
-(1, 9, 45, 1),
-(1, 11, 45, 3),
-(1, 6, 47, 2),
-(1, 8, 47, 4),
-(1, 12, 49, 1),
-(1, 5, 49, 2),
-(1, 9, 49, 4),
-(1, 12, 51, 3),
-(1, 3, 51, 1),
-(1, 11, 53, 1),
-(1, 5, 53, 1),
-(1, 9, 53, 1),
-(1, 11, 54, 1),
-(1, 10, 54, 1),
-(1, 12, 55, 1),
-(1, 11, 55, 3),
-(1, 4, 55, 1),
-(1, 5, 56, 1),
-(1, 6, 56, 1),
-(1, 11, 58, 1);
+(4, 1, 93, 1),
+(4, 9, 93, 3),
+(4, 16, 93, 1),
+(4, 12, 94, 1),
+(4, 8, 94, 3),
+(6, 11, 95, 3),
+(4, 6, 97, 1),
+(4, 5, 97, 1),
+(5, 6, 98, 1),
+(5, 11, 98, 3),
+(6, 6, 100, 1),
+(6, 2, 100, 3),
+(6, 8, 100, 1),
+(6, 12, 100, 2),
+(6, 12, 101, 1),
+(6, 6, 101, 1),
+(6, 8, 101, 1),
+(6, 15, 101, 1),
+(6, 17, 101, 1),
+(6, 1, 101, 1);
 
 --
 -- Indexes for dumped tables
@@ -310,25 +266,25 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=103;
 
 --
 -- AUTO_INCREMENT for table `orders_info`
 --
 ALTER TABLE `orders_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables

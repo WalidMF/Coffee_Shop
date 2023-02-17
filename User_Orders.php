@@ -41,10 +41,10 @@
         <div class="m-0 p-3 h-100 w-100 d-flex">
             <!-- Right Side Section -->
             <div class="right_side_style pe-3 pt-3 pt-lg-2">
-                 <div class="user_info_style p-lg-2"> 
+                <div class="user_info_style p-lg-2"> 
                 <div class="p-3 pt-4 img-style">
                     <img src="Assets/Images/Users/<?php echo $user_pic; ?>" alt="User Picture" class="rounded-circle w-100" style="border: 3px solid white;">
-                </div>                    
+                </div>                  
                 <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center"><?php echo $user_name; ?></h4>
                 <h5 class="m-0 text-secondary d-none d-lg-block text-center">ADMIN</h5>
             </div>
@@ -55,29 +55,29 @@
                 </div>
             </div>
             <!-- Main Section -->
-            <div class="main_section_style m-0 p-3">
+            <div class="main_section_style m-0 p-5">
                 
-                <h1> My Orders </h1>
+                <h3> My Orders... </h3>
                 <br>
         <div class="row ">
         <form action="" method="post">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-5">
                                     <div class="form-group">
                                         <label>From Date</label>
                                         <input type="date" name="from_date" value="<?php if(isset($_POST['from_date'])){ echo $_POST['from_date']; } ?>" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-5">
                                     <div class="form-group">
                                         <label>To Date</label>
                                         <input type="date" name="to_date" value="<?php if(isset($_POST['to_date'])){ echo $_POST['to_date']; } ?>" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-2">
                                     <div class="form-group">
                                         <br>
-                                      <button type="submit" class="btn btn-primary">Filter</button>
+                                      <button type="submit" class="btn btn-primary w-100">Filter</button>
                                     </div>
                                 </div>
                             </div>
