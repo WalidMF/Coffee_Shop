@@ -1,0 +1,40 @@
+#chooseUser {
+    width: 480px;
+    border: 1px solid lightgrey;
+    border-radius: 6px;
+    height: 33px;
+    font-size: 18px;
+    
+    padding-left: 6px;
+    background-color: white;
+}
+#chooseUserDrop{
+   width:480px;
+    border-radius: 10px;
+}
+#searchlabel{
+    width:480px;
+    border-radius: 10px;
+    font-size: 28px;
+    padding-left: 20px;
+    background-color: white;
+}
+#search{
+    height: 45px;
+    border-radius: 10px;
+}
+#searchButton{
+    height: 44px;
+    width: 113px;
+    font-weight: 600;
+}
+#orderDetails{
+    border: 1px solid gray;
+    background-color: white;
+    width:480px;
+    border-radius: 10px;
+    font-size: 28px;
+    padding-left: 20px;
+
+
+}
