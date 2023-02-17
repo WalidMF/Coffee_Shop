@@ -40,7 +40,7 @@
                 </div>
             </div>
             <!-- Main Section -->
-            <div class="main_section_style m-0 p-3">
+            <div class="main_section_style m-0 p-5">
 <?php
 $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
 $order_id=$_GET['search'];
@@ -58,9 +58,10 @@ $query3 = ' select  distinct product_id ,products.name , products.price , produc
                 
                 ?>
  <!--order details-->
- <div id="orderDetails"> Order <?php echo '#'. $order_id?> Product Details</div>
+
+ <h3 class="mt-3">Order <?php echo '#'. $order_id?> Product Details </h3>
  
- <table class="table table-striped table-bordered table-hover table-primary ml-1 mr-1 mt-5" >
+ <table class="table table-striped table-bordered table-hover table-primary ml-1 mr-1 mt-4" >
                   <thead>
                     <tr>
                     <th scope="col"> product ID</th>

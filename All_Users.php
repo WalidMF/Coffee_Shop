@@ -53,7 +53,7 @@
             </div>
             <div class="btn-group-vertical w-100 pt-4 pt-lg-1 p-2">
                 <a href="Admin_Home.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-house mx-2"></i><span class="d-none d-lg-inline">Home</span></a>
-                <a href="Add_Product.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-mug-saucer mx-1"></i><span class="d-none d-lg-inline">Products</span></a>
+                <a href="All_Products.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-mug-saucer mx-1"></i><span class="d-none d-lg-inline">Products</span></a>
                 <a href="All_Users.php" class="btn btn-outline-light text-start p-2 my-1 active"><i class="fa-solid fa-user mx-2"></i><span class="d-none d-lg-inline">Users</span></a>
                 <a href="Admin_Orders.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-bag-shopping mx-2"></i><span class="d-none d-lg-inline">Orders</span></a>
                 <a href="Cheeks.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-circle-check mx-2"></i><span class="d-none d-lg-inline">Cheeks</span></a>
@@ -89,8 +89,24 @@
                     <tbody class="bg-body">
                         <?php
 
+                            $result_per_page=5;
+                            $num_of_users=sizeof($all_users);
+                            $num_of_pages=ceil($num_of_users/$result_per_page);
+                            if (!isset($_GET['page']))
+                            {
+                                $page=1;
+                            }
+                            else
+                            {
+                                $page=$_GET['page'];
+                            }
+
+                            $page_first_result=($page-1)*$result_per_page;
+
+
+
                             $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
-                            $query = "SELECT * FROM users;";
+                            $query = "SELECT * FROM users LIMIT ".$page_first_result.','.$result_per_page.';';
                             $sql = $con->prepare($query);
                             $sql->execute();
                             $alldata = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -115,6 +131,13 @@
                         ?>
                     </tbody>
                 </table>
+
+                <?php
+                    for($page=1;$page<=$num_of_pages;$page++)
+                    {
+                        echo '<a class="btn btn-outline-primary" href="All_Users.php?page='.$page.'">'.$page.'</a> '; //pagination button
+                    }
+                ?>
             </div>
         </div>
     </div>

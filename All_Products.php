@@ -23,43 +23,85 @@
 </head>
 
 <body>
+
+    <?php 
+        
+      // get user info from database
+      $user_id = $_COOKIE["user_id"];
+      $conn = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
+      $query = "SELECT * FROM users";
+      $sql = $conn->prepare($query);
+      $sql->execute();
+      $all_users = $sql->fetchAll(PDO::FETCH_ASSOC);
+      foreach($all_users as $user){
+          if($user['id'] == $user_id){
+              $user_name = $user['name'];
+              $user_pic = $user['picture'];
+          }
+      }
+
+      $query = "SELECT * FROM products";
+      $sql = $conn->prepare($query);
+      $sql->execute();
+      $all_products = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+    ?>
+
   <div class="m-0 p-3 h-100 w-100 d-flex">
     <!-- Right Side Section -->
     <div class="right_side_style pe-3 pt-3 pt-lg-2">
-      <div class="user_info_style p-lg-4">
-        <img src="Assets/Images/user.png" alt="User Picture" class="rounded-circle w-100">
-        <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center">User Name</h4>
-        <h5 class="m-0 text-secondary d-none d-lg-block text-center">Admin</h5>
+      <div class="user_info_style p-lg-2"> 
+          <div class="p-3 pt-4 img-style">
+              <img src="Assets/Images/Users/<?php echo $user_pic; ?>" alt="User Picture" class="rounded-circle w-100" style="border: 3px solid white;">
+          </div>                    
+          <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center"><?php echo $user_name; ?></h4>
+          <h5 class="m-0 text-secondary d-none d-lg-block text-center">ADMIN</h5>
       </div>
       <div class="btn-group-vertical w-100 pt-4 pt-lg-1 p-2">
-        <a href="Admin_Home.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-house mx-2"></i><span class="d-none d-lg-inline">Home</span></a>
-        <a href="Add_Product.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-mug-saucer mx-1"></i><span class="d-none d-lg-inline">Products</span></a>
-        <a href="All_Users.html" class="btn btn-outline-light text-start p-2 my-1 active"><i class="fa-solid fa-user mx-2"></i><span class="d-none d-lg-inline">Users</span></a>
-        <a href="Admin_Orders.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-bag-shopping mx-2"></i><span class="d-none d-lg-inline">Orders</span></a>
-        <a href="Cheeks.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-circle-check mx-2"></i><span class="d-none d-lg-inline">Cheeks</span></a>
-        <a href="Login.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-right-from-bracket mx-2"></i><span class="d-none d-lg-inline">Sign Out</span></a>
+        <a href="Admin_Home.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-house mx-2"></i><span class="d-none d-lg-inline">Home</span></a>
+        <a href="All_Products.php" class="btn btn-outline-light text-start p-2 my-1 active"><i class="fa-solid fa-mug-saucer mx-1"></i><span class="d-none d-lg-inline">Products</span></a>
+        <a href="All_Users.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-user mx-2"></i><span class="d-none d-lg-inline">Users</span></a>
+        <a href="Admin_Orders.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-bag-shopping mx-2"></i><span class="d-none d-lg-inline">Orders</span></a>
+        <a href="Cheeks.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-circle-check mx-2"></i><span class="d-none d-lg-inline">Cheeks</span></a>
+        <a href="Login.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-right-from-bracket mx-2"></i><span class="d-none d-lg-inline">Sign Out</span></a>
       </div>
     </div>
     <!-- Main Section -->
     <div class="main_section_style m-0 p-3">
 
       <?php
+
+        $result_per_page=6;
+        $num_of_pro=sizeof($all_products);
+        $num_of_pages=ceil($num_of_pro/$result_per_page);
+        if (!isset($_GET['page']))
+        {
+            $page=1;
+        }
+        else
+        {
+            $page=$_GET['page'];
+        }
+
+        $page_first_result=($page-1)*$result_per_page;
+
+
       
       $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
-      $query = "SELECT * FROM products";
+      $query = "SELECT * FROM products LIMIT ".$page_first_result.','.$result_per_page.';';
       $sql = $con->prepare($query);
       $res = $sql->execute();
       $products = ($sql->fetchAll(PDO::FETCH_ASSOC));
      
       ?>
 
-      <div class="container mt-3">
-        <div class="row mt-5 mb-3">
+      <div class="container h-100 p-5">
+        <div class="row py-3">
           <div class="col-6">
-            <h1>All Products</h1>
+            <h3>All Products...</h3>
           </div>
           <div class="col-6 d-flex justify-content-end">
-            <a href="Add_product.php"><button type="button" class="btn btn-secondary" name="save">Add Products</button></a>
+            <a href="Add_product.php"><button type="button" class="btn btn-primary px-3" name="save">Add Products</button></a>
           </div>
         </div>
         <div class="table-wrapper">
@@ -105,6 +147,12 @@
 
       </div>
 
+<?php
+      for($page=1;$page<=$num_of_pages;$page++)
+      {
+          echo '<a class="btn btn-outline-primary" href="All_Products.php?page='.$page.'">'.$page.'</a> '; //pagination button
+      }
+?>
 
 
 

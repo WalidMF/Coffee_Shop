@@ -16,7 +16,9 @@ if(isset($_POST['cate_id'])){
     $sql = $conn->prepare($query);
     $sql->execute();
     $all_products = $sql->fetchAll(PDO::FETCH_ASSOC);
-    foreach($all_products as $product){ ?>
+    foreach($all_products as $product){ 
+        if($product['status'] == "available"){
+        ?>
         <div class="col-2 ps-0 my-1 mb-2">
             <button class="card h-100" onclick="addProductToBill(this)" value="<?php echo $product['id'] ?>">
                 <img src="Assets/Images/Products/<?php echo $product['picture'] ?>" class="card-img-top p-3" alt="<?php echo $product['name'] ?>">
@@ -26,7 +28,7 @@ if(isset($_POST['cate_id'])){
                 </div>
             </button>
         </div>
-    <?php }
+    <?php }}
 }
 
 // search api
@@ -37,7 +39,9 @@ if(isset($_POST['input'])){
     $sql = $conn->prepare($query);
     $sql->execute();
     $all_products = $sql->fetchAll(PDO::FETCH_ASSOC);
-    foreach($all_products as $product){ ?>
+    foreach($all_products as $product){ 
+        if($product['status'] == "available"){
+        ?>
         <div class="col-2 ps-0 my-1 mb-2">
             <button class="card h-100" onclick="addProductToBill(this)" value="<?php echo $product['id'] ?>">
                 <img src="Assets/Images/Products/<?php echo $product['picture'] ?>" class="card-img-top p-3" alt="<?php echo $product['name'] ?>">
@@ -47,7 +51,7 @@ if(isset($_POST['input'])){
                 </div>
             </button>
         </div>
-    <?php }
+    <?php }}
 }
 
 // display bill api

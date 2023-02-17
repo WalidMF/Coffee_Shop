@@ -21,26 +21,46 @@
 
 <body>
 
+    <?php 
+            
+        // get user info from database
+        $user_id = $_COOKIE["user_id"];
+        $conn = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
+        $query = "SELECT * FROM users";
+        $sql = $conn->prepare($query);
+        $sql->execute();
+        $all_users = $sql->fetchAll(PDO::FETCH_ASSOC);
+        foreach($all_users as $user){
+            if($user['id'] == $user_id){
+                $user_name = $user['name'];
+                $user_pic = $user['picture'];
+            }
+        }
+    ?>
+
+
     <div class="m-0 p-3 h-100 w-100 d-flex">
 
         <!-- Right Side Section -->
         <div class="right_side_style pe-3 pt-3 pt-lg-2">
-            <div class="user_info_style p-lg-4">
-                <img src="Assets/Images/user.png" alt="User Picture" class="rounded-circle w-100">
-                <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center">User Name</h4>
-                <h5 class="m-0 text-secondary d-none d-lg-block text-center">Admin</h5>
-            </div>
+            <div class="user_info_style p-lg-2"> 
+                    <div class="p-3 pt-4 img-style">
+                        <img src="Assets/Images/Users/<?php echo $user_pic; ?>" alt="User Picture" class="rounded-circle w-100" style="border: 3px solid white;">
+                    </div>                    
+                    <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center"><?php echo $user_name; ?></h4>
+                    <h5 class="m-0 text-secondary d-none d-lg-block text-center">ADMIN</h5>
+                </div>
             <div class="btn-group-vertical w-100 pt-4 pt-lg-1 p-2">
-                <a href="Admin_Home.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-house mx-2"></i><span class="d-none d-lg-inline">Home</span></a>
-                <a href="Add_Product.html" class="btn btn-outline-light text-start p-2 my-1 active"><i class="fa-solid fa-mug-saucer mx-1"></i><span class="d-none d-lg-inline">Products</span></a>
-                <a href="All_Users.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-user mx-2"></i><span class="d-none d-lg-inline">Users</span></a>
-                <a href="Admin_Orders.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-bag-shopping mx-2"></i><span class="d-none d-lg-inline">Orders</span></a>
-                <a href="Cheeks.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-circle-check mx-2"></i><span class="d-none d-lg-inline">Cheeks</span></a>
-                <a href="Login.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-right-from-bracket mx-2"></i><span class="d-none d-lg-inline">Sign Out</span></a>
+                <a href="Admin_Home.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-house mx-2"></i><span class="d-none d-lg-inline">Home</span></a>
+                <a href="Add_Product.php" class="btn btn-outline-light text-start p-2 my-1 active"><i class="fa-solid fa-mug-saucer mx-1"></i><span class="d-none d-lg-inline">Products</span></a>
+                <a href="All_Users.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-user mx-2"></i><span class="d-none d-lg-inline">Users</span></a>
+                <a href="Admin_Orders.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-bag-shopping mx-2"></i><span class="d-none d-lg-inline">Orders</span></a>
+                <a href="Cheeks.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-circle-check mx-2"></i><span class="d-none d-lg-inline">Cheeks</span></a>
+                <a href="Login.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-right-from-bracket mx-2"></i><span class="d-none d-lg-inline">Sign Out</span></a>
             </div>
         </div>
       
-        <div class="main_section_style m-0 p-3">
+        <div class="main_section_style m-0 p-5">
     <div class="container mt-2">
         <?php 
         if(isset($_GET['id'])){
@@ -54,21 +74,21 @@
             }
         
         ?>
-        <h1 class="d-flex justify-content-center">Update Product</h1>
+        <h3>Update Product...</h3>
        
         <form action="edit.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?php echo $product['id'] ?>">
-            <div class="mb-4 mt-4">
-                <label for="name" class="fs-5">Product</label>
+            <div class="mb-2 mt-3">
+                <label for="name" class="fs-6">Product</label>
                 <input type="text" class="form-control" id="name" placeholder="Enter product.." name="product" required value="<?php echo $product['name'] ?>">
             </div>
-            <div class="mb-4 mt-4">
-                <label for="num" class="fs-5">Price</label>
+            <div class="mb-2 mt-3">
+                <label for="num" class="fs-6">Price</label>
                 <input type="number" class="form-control" id="num" placeholder="Enter price" name="price" required value="<?php echo $product['price'] ?>">
             </div>
             <div class="row">
                 <div class="col-12">
-                    <label for="cat" class="fs-5">Category</label>
+                    <label for="cat" class="fs-6">Category</label>
                     <select id="cat" class="form-select" aria-label="Default select example" name="category">
                         <?php
                         $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
@@ -83,8 +103,8 @@
                     </select>
                 </div>
             </div>
-            <div class="mb-4 mt-4">
-                <label for="status" class="fs-5">Status</label>
+            <div class="mb-2 mt-3">
+                <label for="status" class="fs-6">Status</label>
                 <select id="status" class="form-select" aria-label="Default select example" name="status">
                     
                     <!-- $selected = $product['status'] == 1 ? 'selected' : '';
@@ -97,8 +117,8 @@
                     
                 </select>
             </div>
-            <div class="mb-4 mt-4">
-                <label for="product_picture" class="fs-5">Product picture</label>
+            <div class="mb-1 mt-3">
+                <label for="product_picture" class="fs-6">Product picture</label>
                 <input type="file" class="form-control" id="product_picture" name="product_picture"  value="<?php echo $product['picture'] ?>"required>
             </div>
 
