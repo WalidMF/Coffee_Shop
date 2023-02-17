@@ -4,7 +4,7 @@ if(isset($_POST['submit'])) {
     $name = $_POST['product'];
     $price = $_POST['price'];
     $category_id = $_POST['category'];
-    $status = 'Available';
+    $status = 'available';
     $picture = $_FILES['product_picture']['name'];
     $target_dir = "Assets/images/products/";
     $target_file = $target_dir . basename($picture);
