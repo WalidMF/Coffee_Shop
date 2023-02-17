@@ -1,5 +1,5 @@
 <?php
-$con = new PDO('mysql:host=localhost;dbname=coffe_shop', 'khaled', '');
+$con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
 $alldata = [];
 
 function all(&$alldata)
