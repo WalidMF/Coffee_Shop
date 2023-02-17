@@ -21,19 +21,37 @@
     </head>
 
     <body>
-        
+    <?php 
+            
+            // get user info from database
+            $user_id = $_COOKIE["user_id"];
+            $conn = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
+            $query = "SELECT * FROM users";
+            $sql = $conn->prepare($query);
+            $sql->execute();
+            $all_users = $sql->fetchAll(PDO::FETCH_ASSOC);
+            foreach($all_users as $user){
+                if($user['id'] == $user_id){
+                    $user_name = $user['name'];
+                    $user_pic = $user['picture'];
+                }
+            }
+        ?>
+
         <div class="m-0 p-3 h-100 w-100 d-flex">
             <!-- Right Side Section -->
             <div class="right_side_style pe-3 pt-3 pt-lg-2">
-                <div class="user_info_style p-lg-4"> 
-                    <img src="Assets/Images/user.png" alt="User Picture" class="rounded-circle w-100" >
-                    <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center">User Name</h4>
-                    <h5 class="m-0 text-secondary d-none d-lg-block text-center">user</h5>
-                </div>
+                 <div class="user_info_style p-lg-2"> 
+                <div class="p-3 pt-4 img-style">
+                    <img src="Assets/Images/Users/<?php echo $user_pic; ?>" alt="User Picture" class="rounded-circle w-100" style="border: 3px solid white;">
+                </div>                    
+                <h4 class="mt-2 m-0 text-light d-none d-lg-block text-center"><?php echo $user_name; ?></h4>
+                <h5 class="m-0 text-secondary d-none d-lg-block text-center">ADMIN</h5>
+            </div>
                 <div class="btn-group-vertical w-100 pt-4 pt-lg-1 p-2">
-                    <a href="User_Home.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-house mx-2"></i><span class="d-none d-lg-inline">Home</span></a>
-                    <a href="User_Orders.html" class="btn btn-outline-light text-start p-2 my-1 active"><i class="fa-solid fa-bag-shopping mx-2"></i><span class="d-none d-lg-inline">My Orders</span></a>
-                    <a href="Login.html" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-right-from-bracket mx-2"></i><span class="d-none d-lg-inline">Sign Out</span></a>
+                    <a href="User_Home.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-house mx-2"></i><span class="d-none d-lg-inline">Home</span></a>
+                    <a href="User_Orders.php" class="btn btn-outline-light text-start p-2 my-1 active"><i class="fa-solid fa-bag-shopping mx-2"></i><span class="d-none d-lg-inline">My Orders</span></a>
+                    <a href="Login.php" class="btn btn-outline-light text-start p-2 my-1"><i class="fa-solid fa-right-from-bracket mx-2"></i><span class="d-none d-lg-inline">Sign Out</span></a>
                 </div>
             </div>
             <!-- Main Section -->
@@ -68,7 +86,7 @@
             <br>
             <?php
 
- $user_id=4;
+$user_id = $_COOKIE["user_id"];
 
  $conn = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
 
