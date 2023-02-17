@@ -39,6 +39,7 @@
                 $user_pic = $user['picture'];
             }
         }
+       
     ?>
 
     <div class="m-0 p-3 h-100 w-100 d-flex">
@@ -71,8 +72,8 @@
                     </div><div class="col-4 d-flex justify-content-end">
                         <a href="./Add_Users.php" class="btn btn-primary py-2 px-4">Add User</a> 
                     </div>
-                </div>
-                <table class="table table-hover mt-2 table table-striped">
+                </div>  
+                <table  id="example"  class="table display table-hover mt-2 table table-striped">
                     <thead class=" fs-5">
                         <tr>
                             <th scope="col">No</th>
@@ -88,9 +89,23 @@
 
                     <tbody class="bg-body">
                         <?php
+                             $result_per_page=5;
+                             $num_of_users=sizeof($all_users);
+                             $num_of_pages=ceil($num_of_users/$result_per_page);
+                             if (!isset($_GET['page']))
+                             {
+                                 $page=1;
+                             }
+                             else
+                             {
+                                 $page=$_GET['page'];
+                             }
 
+                            $page_first_result=($page-1)*$result_per_page; 
+
+                            ///////////////////////////////////////////////////////////////////////           
                             $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
-                            $query = "SELECT * FROM users;";
+                            $query = "SELECT * FROM users LIMIT ".$page_first_result.','.$result_per_page.';';
                             $sql = $con->prepare($query);
                             $sql->execute();
                             $alldata = $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -111,6 +126,14 @@
                                 <td scope="row" class="text-center">'.'<a href="Update_User.php?updateid='.$id.'" class="btn btn-primary">Update</a>' .'</td>
                                 <td scope="row" class="text-center">'.'<a href="Delete_user.php?deleteid='.$id.'" class="btn btn-danger">Delete</a> '.'</td>';
                             }
+                           
+
+                            ////////////////////////////////////////////////////////////////////////////////////////////
+                            for($page=1;$page<=$num_of_pages;$page++)
+                            {
+                                echo '<a class="btn btn-primary" href="All_Users.php?page='.$page.'">'.$page.'</a> '; //pagination button
+                            }
+                    
 
                         ?>
                     </tbody>
@@ -122,6 +145,7 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    
 
 </body>
 
