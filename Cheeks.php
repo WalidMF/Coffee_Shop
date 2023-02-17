@@ -45,7 +45,7 @@
               <?php
 
 
-$con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', 'kalbozy^^');
+$con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
 
 
 $query1 = 'select   users.name ,  sum(distinct total)as totals

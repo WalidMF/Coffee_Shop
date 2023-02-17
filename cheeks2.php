@@ -43,7 +43,7 @@
 
               <?php
 
-                $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', 'kalbozy^^');
+                $con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
 
                
 

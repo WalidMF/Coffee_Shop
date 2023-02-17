@@ -42,7 +42,7 @@
             <!-- Main Section -->
             <div class="main_section_style m-0 p-3">
 <?php
-$con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', 'kalbozy^^');
+$con = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
 $order_id=$_GET['search'];
 //if(empty($order_id))
 $query3 = ' select  distinct product_id ,products.name , products.price , product_count, (products.price * product_count) as Total
