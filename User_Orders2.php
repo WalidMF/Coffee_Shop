@@ -21,9 +21,9 @@
     </head>
 
     <body>
-        
-        <?php
-    // get user info from database
+    <?php 
+            
+            // get user info from database
             $user_id = $_COOKIE["user_id"];
             $conn = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
             $query = "SELECT * FROM users";
@@ -57,58 +57,72 @@
             <!-- Main Section -->
             <div class="main_section_style m-0 p-5">
                 
-                <h1> My Orders </h1>
+                <h3> My Orders... </h3>
                 <br>
         <div class="row ">
-        <form action=" ./User_Orders.php " method="post">
+        <form action="" method="post">
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-5">
                                     <div class="form-group">
                                         <label>From Date</label>
-                                        <input type="date" name="from_date" class="form-control">
+                                        <input type="date" name="from_date" value="<?php if(isset($_POST['from_date'])){ echo $_POST['from_date']; } ?>" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-5">
                                     <div class="form-group">
                                         <label>To Date</label>
-                                        <input type="date" name="to_date"  class="form-control">
+                                        <input type="date" name="to_date" value="<?php if(isset($_POST['to_date'])){ echo $_POST['to_date']; } ?>" class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-2">
                                     <div class="form-group">
                                         <br>
-
-                                      <button type="submit"  name="submit" class="btn btn-primary w-100">Filter</button>
+                                      <button type="submit" class="btn btn-primary w-100">Filter</button>
                                     </div>
                                 </div>
                             </div>
                         </form>
             </div>
             <br>
+            <?php
+
+$user_id = $_COOKIE["user_id"];
+
+ $conn = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
+
+    
+
+//get user id from session after login
+
+
+
+// $query ="SELECT orders.date, orders_info.status, user_order_product.product_count FROM (
+//     (orders INNER JOIN orders_info ON orders.id = orders_info.order_id) 
+//     INNER JOIN user_order_product ON orders.id = user_order_product.order_id)  WHERE user_order_product.user_id= 1";
+// $sql = $conn->prepare($query);
+// $sql->execute();
+// $my_order = $sql->fetchAll(PDO::FETCH_ASSOC);
+
+?>
+
         <table class="table table-striped">
-        <thead class="sticky-top">
+        <thead>
         <tr class="table-light">
         <th scope="col">Order Date</th>
             <th scope="col">Status</th>
             <th scope="col">Total</th>
             <th scope="col">Action</th>
-            <th>View Details</th>
         </tr>
         </thead>
         <tbody>
-            <?php
+         <?php   
+$status=" SELECT status FROM orders_info";
+$sql=$conn->prepare($status);
+$sql->execute();
+$status_order=$sql->fetchAll(PDO::FETCH_ASSOC);
 
-$user_id = $_COOKIE["user_id"];
 
-$conn = new PDO('mysql:host=localhost;dbname=coffee_shop', 'root', '');
-
-
-//////// get user order by filter date 
-    
-    
-
-///////////// get user order from  database
-if(isset($_POST['from_date']) && isset($_POST['to_date'])){
+    if(isset($_POST['from_date']) && isset($_POST['to_date'])){
    $from_date=$_POST['from_date'];
    $to_date=$_POST['to_date'];
 
@@ -124,17 +138,17 @@ if(isset($_POST['from_date']) && isset($_POST['to_date'])){
                 user_order_product ON orders.id = user_order_product.order_id) WHERE user_order_product.user_id=$user_id ";
  
 }
-
-   $sql = $conn->prepare($query);
+    $sql = $conn->prepare($query);
     $sql->execute();
     $my_order = $sql->fetchAll(PDO::FETCH_ASSOC);
     
     foreach($my_order as $row)
     {
-        
-        if($row['status']!="Cancel"){   
+        if($row['status']!="Cancel"){
 
+       
         ?>
+
         <tr>
             <td><?=$row['date']; ?></td>
             <td><?=$row['status'] ;?></td>
@@ -144,28 +158,22 @@ if(isset($_POST['from_date']) && isset($_POST['to_date'])){
             if($row['status']=="Processing"){
                 $x=$row['order_id'];
                 echo ' <a href="cancel.php?cancelid='.$x.' " class="btn btn-danger" >Cancel</a>';
+
             }
             ?>
             </td>
-            <td>
-                <?php
-                $y=$row['order_id'];
-            echo ' <a href="detailsMyOrder.php?viewdetails='. $y.' " class="btn btn-primary" > View Details</a>';
-        ?>
-           </td>
         </tr>
         <?php
          }
     }
-?>
 
-                  </tbody>
+?>
+        </tbody>
         </table> 
 
 
             </div>
         </div>
-        
         
 
         <!-- Bootstrap JS -->
