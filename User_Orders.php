@@ -18,6 +18,17 @@
         <!-- Main Style CSS -->
         <link rel="stylesheet" href="Assets/Styles/style_main.css">
 
+        <style>
+            ::-webkit-scrollbar{
+                width: 1px;
+            }
+
+            #scroll{
+                max-height: 700px;
+                overflow: auto;
+            }
+        </style>
+
     </head>
 
     <body>
@@ -55,7 +66,7 @@
                 </div>
             </div>
             <!-- Main Section -->
-            <div class="main_section_style m-0 p-5">
+            <div class="main_section_style m-0 p-5" id="scroll">
                 
                 <h1> My Orders </h1>
                 <br>
